@@ -1,31 +1,28 @@
-require('dotenv').config()
-const express = require('express')
-const User = require('./models/User')
-const router = express.Router()
+const express = require("express");
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const UserApies = require("./apies/userApies");
+require("dotenv").config();
 
-const app = express()
-const port = process.env.PORT || 5001
+const app = express();
+const port = process.env.PORT || 5001;
+const cors = require("cors");
 
-const mongoose = require('mongoose')
-const uri = process.env.MONGODB_URI
-mongoose.connect(uri, {
-}).then(() => {
-  console.log('Connected to MongoDB')
-}).catch((err) => {
-  console.error(err)
-})
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// router.get('/users', async (req, res) => {
-//   const users = await User.find()
-//   res.json(users)
-// })
+app.use(cors());
+mongoose
+  .connect(process.env.MONGODB_URI, {})
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
-// router.post('/users', async (req, res) => {
-//   const user = new User(req.body)
-//   await user.save()
-//   res.json(user)
-// })
+app.use("/api", UserApies);
 
 app.listen(port, () => {
-  console.log(`Server is listening on port ${port}`)
-})
+  console.log(`Server is listening on port ${port}`);
+});
