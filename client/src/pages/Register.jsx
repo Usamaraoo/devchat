@@ -4,22 +4,32 @@ export default function Register() {
     <div class="h-screen md:flex">
       <div class="relative overflow-hidden md:flex w-1/2 bg-gradient-to-tr from-gray-600 to-gray-900 i justify-around items-center hidden">
         <div>
-          <img
-            className="absolute  left-1/2 transform -translate-x-1/2 translate-y-1/2  opacity-50"
-            width={300}
-            src={registerImg}
-            alt="register"
-          />
-          <h1 class=" font-bold text-4xl font-sans text-orange-400">DevChat</h1>
-          <p class=" mt-1 tracking-widest">Connect, Collaborate, Code</p>
+          <div className=" text-center absolute left-1/2 transform -translate-x-1/2 top-[200px] ">
+            <h1 class=" font-bold text-4xl  font-sans text-orange-400">
+              DevChat
+            </h1>
+            <p class=" mt-1 tracking-widest">Connect, Collaborate, Code</p>
+            <img
+              className="  opacity-60"
+              width={300}
+              src={registerImg}
+              alt="register"
+            />
+          </div>
         </div>
-        <div class="absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-        <div class="absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-        <div class="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
-        <div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+        <div className="opacity-20">
+          <div class="absolute -bottom-32 -left-40 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div class="absolute -bottom-40 -left-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+          <div class="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-25 border-t-8"></div>
+          <div class="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
+        </div>
       </div>
-      <div class="flex md:w-1/2 justify-center py-10 items-center bg-gray-800">
-        <form class="bg-gray-800 w-3/5">
+      <div class="flex md:w-1/2 justify-center py-10 items-center bg-gray-800 h-screen">
+        <form class="bg-gray-800 md:w-3/5 w-4/5">
+          <h1 class="md:hidden font-bold text-4xl font-sans text-orange-400">
+            DevChat
+          </h1>
+
           <h1 class=" font-bold text-2xl mb-1">Register</h1>
           <p class="text-sm font-normal  mb-7">Lets go..</p>
 
