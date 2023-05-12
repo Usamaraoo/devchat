@@ -58,7 +58,17 @@ const loginUser = async (req, res) => {
     res.status(500).json({ err: "something went wrong" });
   }
 };
+
+const userInfo = async (req,res)=>{
+  try {
+    const user = await UserModel.findById(req.user.id).select('-password');
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+}
 module.exports = {
   registerUser,
   loginUser,
+  userInfo,
 };
