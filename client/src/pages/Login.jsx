@@ -36,8 +36,8 @@ export default function Login() {
   return (
     <div className="h-screen md:flex">
       <LoginRegsterSide imgSpc={loginImg} />
-      <div className="flex md:w-1/2 justify-center py-10 items-center bg-gray-800 h-screen">
-        <form onSubmit={login} className="bg-gray-800 md:w-3/5 w-4/5">
+      <div className="flex md:w-1/2 justify-center py-10 items-center bg-gray-800 h-screen relative">
+        <form onSubmit={login} className="bg-gray-800 md:w-3/5 w-4/5 absolute left-1/2 transform -translate-x-1/2 top-[200px]">
           <h1 className="md:hidden font-bold text-4xl font-sans text-orange-400">
             DevChat
           </h1>
@@ -83,7 +83,7 @@ export default function Login() {
             </svg>
             <input
               className="pl-2 outline-none border-none bg-gray-800"
-              type="text"
+              type="password"
               name="password"
               onChange={(e) => handleChange(e)}
               value={user.password}
