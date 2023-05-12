@@ -23,8 +23,8 @@ export default function Login() {
       if (email && password) {
         const res = await axios.post("/api/login", user);
         if (res.status === 200) {
-          console.log(res.data);
-          alert("LoggedIN");
+          console.log(res.data.token);
+          localStorage.setItem("token", res.data.token);
         }
       } else {
         alert("invalid input");
@@ -37,7 +37,10 @@ export default function Login() {
     <div className="h-screen md:flex">
       <LoginRegsterSide imgSpc={loginImg} />
       <div className="flex md:w-1/2 justify-center py-10 items-center bg-gray-800 h-screen relative">
-        <form onSubmit={login} className="bg-gray-800 md:w-3/5 w-4/5 absolute left-1/2 transform -translate-x-1/2 top-[200px]">
+        <form
+          onSubmit={login}
+          className="bg-gray-800 md:w-3/5 w-4/5 absolute left-1/2 transform -translate-x-1/2 top-[200px]"
+        >
           <h1 className="md:hidden font-bold text-4xl font-sans text-orange-400">
             DevChat
           </h1>
