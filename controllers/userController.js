@@ -14,18 +14,20 @@ const registerUser = async (req, res) => {
     newUser.password = await bcrypt.hash(password, salt);
     await newUser.save();
     //  return jwt
-    const payload = { user: { id: user.id } };
+    const payload = { user: { id: newUser.id } };
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
       { expiresIn: "7 days" },
       (err, token) => {
-        if (err) throw err;
-        res.json({ token });
+        if (!err) {
+          res.json({ token });
+        }
+        throw err;
       }
     );
   } catch (error) {
-    res.status(200).json({ err: "something went wrong" });
+    res.status(500).json({ err: "something went wrong" });
   }
 };
 const loginUser = async (req, res) => {
@@ -45,10 +47,10 @@ const loginUser = async (req, res) => {
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
-        { expiresIn: '30 days' },
+        { expiresIn: "30 days" },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json({ token,user });
         }
       );
     } else {
@@ -59,14 +61,14 @@ const loginUser = async (req, res) => {
   }
 };
 
-const userInfo = async (req,res)=>{
+const userInfo = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user.id).select('-password');
+    const user = await UserModel.findById(req.user.id).select("-password");
     res.status(200).json({ user });
   } catch (error) {
     res.status(500).json(error);
   }
-}
+};
 module.exports = {
   registerUser,
   loginUser,

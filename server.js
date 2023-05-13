@@ -8,9 +8,13 @@ const app = express();
 const port = process.env.PORT || 5001;
 const cors = require("cors");
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200
+}
 app.use(cors());
 mongoose
   .connect(process.env.MONGODB_URI, {})

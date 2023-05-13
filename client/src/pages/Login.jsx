@@ -1,14 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import loginImg from "../assests/images/loginImg.svg";
 import LoginRegsterSide from "../layouts/LoginRegsterSide";
 import { useState } from "react";
-import axios from "axios";
-
+import axios from "../apies/axios";
+import useAuth from "../hooks/useAuth";
 export default function Login() {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from.pathname || "/";
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
@@ -25,6 +30,12 @@ export default function Login() {
         if (res.status === 200) {
           console.log(res.data.token);
           localStorage.setItem("token", res.data.token);
+          setUser({
+            email: "",
+            password: "",
+          });
+          setAuth({ ...res.data.user, user: true });
+          navigate(from, { replace: true });
         }
       } else {
         alert("invalid input");
@@ -79,15 +90,16 @@ export default function Login() {
               fill="currentColor"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
             <input
               className="pl-2 outline-none border-none bg-gray-800"
               type="password"
               name="password"
+              autoComplete="on"
               onChange={(e) => handleChange(e)}
               value={user.password}
               placeholder="Password"
