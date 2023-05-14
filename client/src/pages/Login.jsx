@@ -26,15 +26,14 @@ export default function Login() {
     try {
       const { email, password } = user;
       if (email && password) {
-        const res = await axios.post("/api/login", user);
+        const res = await axios.post("/api/login", user,{ withCredentials: true,});
         if (res.status === 200) {
-          console.log(res.data.token);
-          localStorage.setItem("token", res.data.token);
+          const { foundUser, accessToken } = res.data;
           setUser({
             email: "",
             password: "",
           });
-          setAuth({ ...res.data.user, user: true });
+          setAuth({ foundUser, accessToken, user: true });
           navigate(from, { replace: true });
         }
       } else {

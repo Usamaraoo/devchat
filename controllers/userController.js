@@ -31,39 +31,56 @@ const registerUser = async (req, res) => {
   }
 };
 const loginUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await UserModel.findOne({ email });
-    if (user) {
-      const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) {
-        return res.status(400).json({ msg: "Email or password incorrect" });
-      }
-      const payload = {
-        user: {
-          id: user.id,
+  const { email, password } = req.body;
+  if (!email || !password)
+    return res
+      .status(400)
+      .json({ message: "Username and password are required." });
+
+  const foundUser = await UserModel.findOne({ email }).exec();
+  if (!foundUser) return res.sendStatus(401); //Unauthorized
+  // evaluate password
+  const match = await bcrypt.compare(password, foundUser.password);
+  if (match) {
+    // create JWTs
+    const accessToken = jwt.sign(
+      {
+        UserInfo: {
+          username: foundUser.name,
         },
-      };
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: "30 days" },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token,user });
-        }
-      );
-    } else {
-      res.status(500).json({ error: "email or password incorrect" });
-    }
-  } catch (error) {
-    res.status(500).json({ err: "something went wrong" });
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "10s" }
+    );
+    const refreshToken = jwt.sign(
+      { username: foundUser.name },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+    // Saving refreshToken with current user
+    foundUser.refreshToken = refreshToken;
+    const result = await foundUser.save();
+    console.log(result);
+
+    // Creates Secure Cookie with refresh token
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    // Send authorization roles and access token to user
+    res.json({ foundUser, accessToken });
+  } else {
+    res.sendStatus(401);
   }
 };
 
 const userInfo = async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user.id).select("-password");
+    const { email } = req.params;
+    const user = await UserModel.findOne({ email }).select("-password");
     res.status(200).json({ user });
   } catch (error) {
     res.status(500).json(error);
