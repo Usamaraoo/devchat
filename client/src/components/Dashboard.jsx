@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "../apies/axios";
+import useRefreshtoken from "../hooks/useRefreshtoken";
 
 export default function Dashboard() {
+  const refresh = useRefreshtoken();
   const [user, setUser] = useState({});
   useEffect(() => {
     let isMounted = true;
@@ -22,7 +24,7 @@ export default function Dashboard() {
         console.log(error);
       }
     };
-    getUserInfo();
+    // getUserInfo();
     return () => {
       isMounted = false;
       controller.abort();
@@ -31,6 +33,9 @@ export default function Dashboard() {
 
   return (
     <div>
+      <button className="bg-green-400 px-4 py-2" onClick={() => refresh()}>
+        Refresh token
+      </button>
       <h3 className="text-2xl">Dashboard</h3>
       {user && (
         <div>

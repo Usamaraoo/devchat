@@ -46,14 +46,14 @@ const loginUser = async (req, res) => {
     const accessToken = jwt.sign(
       {
         UserInfo: {
-          username: foundUser.name,
+          name: foundUser.name,
         },
       },
       process.env.JWT_SECRET,
       { expiresIn: "10s" }
     );
     const refreshToken = jwt.sign(
-      { username: foundUser.name },
+      { name: foundUser.name },
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
