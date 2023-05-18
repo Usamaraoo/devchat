@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const refreshToken = async (req, res) => {
+  console.log('refresh accessToken');
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(401);
   const refreshToken = cookies.jwt;
@@ -9,7 +10,6 @@ const refreshToken = async (req, res) => {
   if (!foundUser) return res.sendStatus(403); //Forbidden
   // evaluate jwt
   jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
-    console.log(foundUser.name, decoded);
     if (err || foundUser.name !== decoded.name) return res.sendStatus(403);
     const accessToken = jwt.sign(
       {

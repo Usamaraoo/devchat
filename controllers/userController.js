@@ -45,9 +45,7 @@ const loginUser = async (req, res) => {
     // create JWTs
     const accessToken = jwt.sign(
       {
-        UserInfo: {
-          name: foundUser.name,
-        },
+        UserInfo:{ name: foundUser.name}
       },
       process.env.JWT_SECRET,
       { expiresIn: "10s" }
@@ -60,7 +58,6 @@ const loginUser = async (req, res) => {
     // Saving refreshToken with current user
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
-    console.log(result);
 
     // Creates Secure Cookie with refresh token
     res.cookie("jwt", refreshToken, {
