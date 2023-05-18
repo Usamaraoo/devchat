@@ -1,26 +1,33 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState({});
-  const axiosPrivate = useAxiosPrivate()
+  const axiosPrivate = useAxiosPrivate();
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
     const getUserInfo = async () => {
       try {
-        const res = await axiosPrivate.get("/api/user/info/usamakaleem505@gmail.com", {
-          signal: controller.signal,
-        });
+        const res = await axiosPrivate.get(
+          "/api/user/info/usamakaleem505@gmail.com",
+          {
+            signal: controller.signal,
+          }
+        );
         if (res.status === 200) {
           console.log(res.data);
           const userData = await res.data;
-          isMounted && setUser({name:userData.user.name,email:userData.user.email});
+          isMounted &&
+            setUser({ name: userData.user.name, email: userData.user.email });
           console.log(user);
         }
       } catch (error) {
+        // navigate("/login", { state: { from: location }, replace: true });
         console.log(error);
       }
     };
@@ -33,7 +40,6 @@ export default function Dashboard() {
 
   return (
     <div>
-    
       <h3 className="text-2xl">Dashboard</h3>
       {user && (
         <div>
