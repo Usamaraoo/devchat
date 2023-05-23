@@ -68,7 +68,7 @@ const loginUser = async (req, res) => {
     });
 
     // Send authorization roles and access token to user
-    res.json({ foundUser, accessToken });
+    res.json({ foundUser, accessToken ,user:true});
   } else {
     res.sendStatus(401);
   }

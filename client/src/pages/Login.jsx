@@ -28,12 +28,12 @@ export default function Login() {
       if (email && password) {
         const res = await axios.post("/api/login", user,{ withCredentials: true,});
         if (res.status === 200) {
-          const { foundUser, accessToken } = res.data;
+          const { foundUser, accessToken,user } = res.data;
           setUser({
             email: "",
             password: "",
           });
-          setAuth({ foundUser, accessToken, user: true });
+          setAuth({ foundUser, accessToken,user });
           navigate(from, { replace: true });
         }
       } else {
@@ -56,6 +56,7 @@ export default function Login() {
           </h1>
 
           <h1 className=" font-bold text-2xl mb-1">Login</h1>
+          <Link to='/'>Home</Link>
           <p className="text-sm font-normal  mb-7">Lets go..</p>
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
             <svg

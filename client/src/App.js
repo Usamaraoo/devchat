@@ -8,6 +8,7 @@ import FourOFour from "./components/FourOFour";
 import RequiredAuth from "./components/RequiredAuth";
 import GuestUser from "./components/GuestUser";
 import Dashboard from "./components/Dashboard";
+import PresistLogin from "./components/PresistLogin";
 function App() {
   return (
     <div className="text-white h-screen bg-gray-900">
@@ -21,9 +22,11 @@ function App() {
             </Route>
 
             {/* Protected Routes */}
-            <Route element={<RequiredAuth />}>
-              <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<PresistLogin />}>
+              <Route element={<RequiredAuth />}>
+                <Route path="/" element={<Home />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+              </Route>
             </Route>
 
             {/* catch all */}
