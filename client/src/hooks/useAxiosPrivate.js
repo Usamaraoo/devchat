@@ -2,18 +2,18 @@ import { axiosPrivate } from "../apies/axios";
 import { useEffect } from "react";
 import useRefreshtoken from "../hooks/useRefreshtoken";
 import useAuth from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const useAxiosPrivate = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const refresh = useRefreshtoken();
-  const { auth, setAuth } = useAuth();
+  const { auth,setAuth } = useAuth();
   useEffect(() => {
     // attaching token using req interceptors
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-          console.log("attaching token", config);
           config.headers["Authorization"] = `Bearer ${auth?.accessToken}`;
         }
         return config;
@@ -33,6 +33,11 @@ const useAxiosPrivate = () => {
           const newAccessToken = await refresh(); // will call refresh accesstoken api
           prevRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axiosPrivate(prevRequest);
+        } 
+        // 401 means that our refresh token has expired
+        else if(error?.response?.status === 401 && !prevRequest?.sent){
+          setAuth({user:false})
+          navigate('/login', { state: { from: location }, replace: true });
         }
         return Promise.reject(error);
       }

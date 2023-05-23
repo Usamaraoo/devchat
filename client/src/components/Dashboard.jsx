@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-
+import useAuth from "../hooks/useAuth";
 export default function Dashboard() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const [user, setUser] = useState({});
   const axiosPrivate = useAxiosPrivate();
   useEffect(() => {
@@ -20,14 +18,11 @@ export default function Dashboard() {
           }
         );
         if (res.status === 200) {
-          console.log(res.data);
           const userData = await res.data;
           isMounted &&
             setUser({ name: userData.user.name, email: userData.user.email });
-          console.log(user);
         }
       } catch (error) {
-        // navigate("/login", { state: { from: location }, replace: true });
         console.log(error);
       }
     };
