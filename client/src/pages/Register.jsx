@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import registerImg from "../assests/images/registerImg.svg";
 import LoginRegsterSide from "../layouts/LoginRegsterSide";
 import { useState } from "react";
-import axios from 'axios'
+import axios from "../apies/axios";
 
 export default function Register() {
   const [user, setUser] = useState({
@@ -18,19 +18,38 @@ export default function Register() {
     });
   };
   const register = async (e) => {
-    e.preventDefault();
-    const { name, email, password } = user;
-    if (name && email && password) {
-       await axios.post("/api/register", user);
-    } else {
-      alert("invalid input");
+    try {
+      e.preventDefault();
+      const { name, email, password } = user;
+      if (name && email && password) {
+        const res = await axios.post("/api/register", {
+          name,
+          email,
+          password,
+        });
+        if (res.status === 200) {
+          console.log(res.data.token);
+          setUser({
+            name: "",
+            email: "",
+            password: "",
+          });
+        }
+      } else {
+        alert("invalid input");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
     <div className="h-screen md:flex">
       <LoginRegsterSide imgSpc={registerImg} />
       <div className="flex md:w-1/2 justify-center py-10 items-center bg-gray-800 h-screen relative">
-        <form onSubmit={register} className="bg-gray-800 md:w-3/5 w-4/5  absolute left-1/2 transform -translate-x-1/2 top-[200px]">
+        <form
+          onSubmit={register}
+          className="bg-gray-800 md:w-3/5 w-4/5  absolute left-1/2 transform -translate-x-1/2 top-[200px]"
+        >
           <h1 className="md:hidden font-bold text-4xl font-sans text-orange-400">
             DevChat
           </h1>
@@ -103,6 +122,7 @@ export default function Register() {
               className="pl-2 outline-none border-none bg-gray-800"
               type="password"
               name="password"
+              autoComplete="on"
               onChange={(e) => handleChange(e)}
               value={user.password}
               placeholder="Password"

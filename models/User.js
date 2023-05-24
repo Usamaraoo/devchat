@@ -17,6 +17,7 @@ const userSchema = mongoose.Schema({
   avatar: {
     type: String,
   },
+  refreshToken: String
 }, { collection: "User" });
 
 const User = mongoose.model("User", userSchema);

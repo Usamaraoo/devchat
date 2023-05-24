@@ -1,14 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import loginImg from "../assests/images/loginImg.svg";
 import LoginRegsterSide from "../layouts/LoginRegsterSide";
-import { useState } from "react";
-import axios from "axios";
-
+import { useEffect, useState } from "react";
+import axios from "../apies/axios";
+import useAuth from "../hooks/useAuth";
 export default function Login() {
+  const { setAuth, persist, setPersist } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from.pathname || "/";
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
@@ -21,10 +26,17 @@ export default function Login() {
     try {
       const { email, password } = user;
       if (email && password) {
-        const res = await axios.post("/api/login", user);
+        const res = await axios.post("/api/login", user, {
+          withCredentials: true,
+        });
         if (res.status === 200) {
-          console.log(res.data);
-          alert("LoggedIN");
+          const { foundUser, accessToken, user } = res.data;
+          setUser({
+            email: "",
+            password: "",
+          });
+          setAuth({ foundUser, accessToken, user });
+          navigate(from, { replace: true });
         }
       } else {
         alert("invalid input");
@@ -33,11 +45,22 @@ export default function Login() {
       console.log(error);
     }
   };
+  const togglePersist = ()=>{
+    console.log('persist',persist);
+    setPersist(!persist)
+  }
+  useEffect(() => {
+    localStorage.setItem("persist",persist)
+  }, [persist])
+  
   return (
     <div className="h-screen md:flex">
       <LoginRegsterSide imgSpc={loginImg} />
       <div className="flex md:w-1/2 justify-center py-10 items-center bg-gray-800 h-screen relative">
-        <form onSubmit={login} className="bg-gray-800 md:w-3/5 w-4/5 absolute left-1/2 transform -translate-x-1/2 top-[200px]">
+        <form
+          onSubmit={login}
+          className="bg-gray-800 md:w-3/5 w-4/5 absolute left-1/2 transform -translate-x-1/2 top-[200px]"
+        >
           <h1 className="md:hidden font-bold text-4xl font-sans text-orange-400">
             DevChat
           </h1>
@@ -76,19 +99,34 @@ export default function Login() {
               fill="currentColor"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               />
             </svg>
             <input
               className="pl-2 outline-none border-none bg-gray-800"
               type="password"
               name="password"
+              autoComplete="on"
               onChange={(e) => handleChange(e)}
               value={user.password}
               placeholder="Password"
             />
+          </div>
+          <div className="flex items-center mt-3">
+            <input
+              type="checkbox"
+              onChange={togglePersist}
+              value={persist}
+              defaultChecked={false}
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Remember me
+            </label>
           </div>
           <button
             type="submit"
