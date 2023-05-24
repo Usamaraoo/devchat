@@ -6,22 +6,23 @@ import useAuth from "../hooks/useAuth";
 export default function PresistLogin() {
   const [isLoading, setLoading] = useState(true);
   const refresh = useRefreshtoken();
-  const { auth } = useAuth();
+  const { auth, persist } = useAuth();
   useEffect(() => {
+    let isMounted = true;
     const verifyRefreshToken = async () => {
       try {
         await refresh();
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        isMounted && setLoading(false);
       }
     };
     !auth?.accessToken ? verifyRefreshToken() : setLoading(false);
+    return () => (isMounted = false);
   }, []);
 
-  useEffect(() => {
-  }, [isLoading]);
-
-  return <>{isLoading ? <p>Loading....</p> : <Outlet />}</>;
+  return (
+    <>{!persist ? <Outlet /> : isLoading ? <p>Loading....</p> : <Outlet />}</>
+  );
 }

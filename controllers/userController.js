@@ -45,7 +45,7 @@ const loginUser = async (req, res) => {
     // create JWTs
     const accessToken = jwt.sign(
       {
-        UserInfo:{ name: foundUser.name}
+        UserInfo: { name: foundUser.name },
       },
       process.env.JWT_SECRET,
       { expiresIn: "30s" }
@@ -68,12 +68,35 @@ const loginUser = async (req, res) => {
     });
 
     // Send authorization roles and access token to user
-    res.json({ foundUser, accessToken ,user:true});
+    res.json({ foundUser, accessToken, user: true });
   } else {
     res.sendStatus(401);
   }
 };
-
+const logoutUser = async (req, res) => {
+  try {
+    const cookies = req.cookies;
+    if (!cookies?.jwt) return res.sendStatus(204); //No content
+    const refreshToken = cookies.jwt;
+    // Is refreshToken in db?
+    const foundUser = await UserModel.findOne({ refreshToken }).exec();
+    if (!foundUser) {
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+      });
+      return res.sendStatus(204);
+    }
+    // Delete refreshToken in db
+    foundUser.refreshToken = "";
+    const result = await foundUser.save();
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+    res.sendStatus(204);
+  } catch (error) {
+    console.log(error);
+  }
+};
 const userInfo = async (req, res) => {
   try {
     const { email } = req.params;
@@ -87,4 +110,5 @@ module.exports = {
   registerUser,
   loginUser,
   userInfo,
+  logoutUser,
 };

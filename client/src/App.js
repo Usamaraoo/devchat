@@ -16,10 +16,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             {/* public Routes */}
-            <Route element={<GuestUser />}>
+            {/* <Route element={<GuestUser />}> */}
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-            </Route>
+            {/* </Route> */}
 
             {/* Protected Routes */}
             <Route element={<PresistLogin />}>

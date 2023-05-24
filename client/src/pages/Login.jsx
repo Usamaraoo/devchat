@@ -1,11 +1,11 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import loginImg from "../assests/images/loginImg.svg";
 import LoginRegsterSide from "../layouts/LoginRegsterSide";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../apies/axios";
 import useAuth from "../hooks/useAuth";
 export default function Login() {
-  const { setAuth } = useAuth();
+  const { setAuth, persist, setPersist } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from.pathname || "/";
@@ -26,14 +26,16 @@ export default function Login() {
     try {
       const { email, password } = user;
       if (email && password) {
-        const res = await axios.post("/api/login", user,{ withCredentials: true,});
+        const res = await axios.post("/api/login", user, {
+          withCredentials: true,
+        });
         if (res.status === 200) {
-          const { foundUser, accessToken,user } = res.data;
+          const { foundUser, accessToken, user } = res.data;
           setUser({
             email: "",
             password: "",
           });
-          setAuth({ foundUser, accessToken,user });
+          setAuth({ foundUser, accessToken, user });
           navigate(from, { replace: true });
         }
       } else {
@@ -43,6 +45,14 @@ export default function Login() {
       console.log(error);
     }
   };
+  const togglePersist = ()=>{
+    console.log('persist',persist);
+    setPersist(!persist)
+  }
+  useEffect(() => {
+    localStorage.setItem("persist",persist)
+  }, [persist])
+  
   return (
     <div className="h-screen md:flex">
       <LoginRegsterSide imgSpc={loginImg} />
@@ -56,7 +66,6 @@ export default function Login() {
           </h1>
 
           <h1 className=" font-bold text-2xl mb-1">Login</h1>
-          <Link to='/'>Home</Link>
           <p className="text-sm font-normal  mb-7">Lets go..</p>
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
             <svg
@@ -104,6 +113,20 @@ export default function Login() {
               value={user.password}
               placeholder="Password"
             />
+          </div>
+          <div className="flex items-center mt-3">
+            <input
+              type="checkbox"
+              onChange={togglePersist}
+              value={persist}
+              defaultChecked={false}
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+            <label
+              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >
+              Remember me
+            </label>
           </div>
           <button
             type="submit"
