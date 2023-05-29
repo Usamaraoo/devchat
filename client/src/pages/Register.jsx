@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import registerImg from "../assests/images/registerImg.svg";
 import LoginRegsterSide from "../layouts/LoginRegsterSide";
 import { useState } from "react";
 import axios from "../apies/axios";
+import useAuth from "../hooks/useAuth";
 
 export default function Register() {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -28,12 +31,13 @@ export default function Register() {
           password,
         });
         if (res.status === 200) {
-          console.log(res.data.token);
+          const { foundUser, accessToken, user } = res.data;
           setUser({
-            name: "",
             email: "",
             password: "",
           });
+          setAuth({ foundUser, accessToken, user });
+          navigate("/avatar");
         }
       } else {
         alert("invalid input");

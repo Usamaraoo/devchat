@@ -13,19 +13,31 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     newUser.password = await bcrypt.hash(password, salt);
     await newUser.save();
-    //  return jwt
-    const payload = { user: { id: newUser.id } };
-    jwt.sign(
-      payload,
+    const refreshToken = jwt.sign(
+      { name: newUser.name },
       process.env.JWT_SECRET,
-      { expiresIn: "7 days" },
-      (err, token) => {
-        if (!err) {
-          res.json({ token });
-        }
-        throw err;
-      }
+      { expiresIn: "1h" }
     );
+    // Saving refreshToken with current user
+    newUser.refreshToken = refreshToken;
+    newUser.save()
+    //  create access token
+    const accessToken = jwt.sign(
+      {
+        UserInfo: { name: newUser.name },
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "30s" }
+    );
+     // Creates Secure Cookie with refresh token
+    res.cookie("jwt", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+    res.json({ foundUser:newUser, accessToken, user: true });
+
   } catch (error) {
     res.status(500).json({ err: "something went wrong" });
   }

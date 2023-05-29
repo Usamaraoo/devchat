@@ -9,6 +9,7 @@ import RequiredAuth from "./components/RequiredAuth";
 import GuestUser from "./components/GuestUser";
 import Dashboard from "./components/Dashboard";
 import PresistLogin from "./components/PresistLogin";
+import Avatar from "./pages/Avatar";
 function App() {
   return (
     <div className="text-white h-screen bg-gray-900">
@@ -26,6 +27,7 @@ function App() {
               <Route element={<RequiredAuth />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/avatar" element={<Avatar />} />
               </Route>
             </Route>
 
