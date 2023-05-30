@@ -30,12 +30,13 @@ export default function Login() {
           withCredentials: true,
         });
         if (res.status === 200) {
-          const { foundUser, accessToken, user } = res.data;
+          console.log('res',res.data)
+          const { foundUser:userData, accessToken, user } = res.data;
           setUser({
             email: "",
             password: "",
           });
-          setAuth({ foundUser, accessToken, user });
+          setAuth({ userData, accessToken, user });
           navigate(from, { replace: true });
         }
       } else {
