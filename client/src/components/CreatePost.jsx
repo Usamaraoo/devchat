@@ -17,6 +17,7 @@ export default function CreatePost() {
             id=""
             placeholder="Start writing..."
             rows="10"
+            
           ></textarea>
           <div className="text-right py-3">
             <button
