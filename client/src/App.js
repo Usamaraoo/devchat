@@ -12,6 +12,8 @@ import PresistLogin from "./components/PresistLogin";
 import Avatar from "./pages/Avatar";
 import SideBar from "./layouts/SideBar";
 import RightBar from "./layouts/RightBar";
+import Profile from './pages/Profile'
+
 function App() {
   return (
     <div className="text-white h-screen bg-gray-900  ">
@@ -37,6 +39,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/avatar" element={<Avatar />} />
+                <Route path="/profile" element={<Profile />} />
               </Route>
             </Route>
           </Routes>
