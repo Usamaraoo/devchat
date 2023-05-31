@@ -1,28 +1,32 @@
-// Import React dependencies.
-import React, { useState } from 'react'
-// Import the Slate editor factory.
-import { createEditor } from 'slate'
-
-// Import the Slate components and React plugin.
-import { Slate, Editable, withReact } from 'slate-react'
-import { graylight } from '../data/StyleGuide'
-
-
+import { graylight, orange } from "../data/StyleGuide";
+import { useState } from "react";
+import Modal from "./Modal";
 export default function CreatePost() {
-    const initialValue = [
-        {
-            type: 'paragraph',
-            children: [{ text: 'A line of text in a paragraph.' }],
-        },
-    ]
-    const [editor] = useState(() => withReact(createEditor()))
-
-    return <div className={`bg${graylight} w-4/5 m-auto my-3`}>
-        <Slate editor={editor} initialValue={initialValue}  >
-            <Editable onKeyDown={event => {
-                console.log(event.key)
-            }} />
-        </Slate>
+  const [openModal, setOpenModal] = useState(true);
+  return (
+    <div
+      className={` w-4/5 m-auto bg${graylight} rounded-md   p-3  my-4`}
+      onClick={() => setOpenModal(!openModal)}
+    >
+      <p className="text-sm text-gray-300">What's on your mind?</p>
+      {openModal && (
+        <Modal>
+          <textarea
+            className={`w-full   bg${graylight}`}
+            name="post"
+            id=""
+            placeholder="Start writing..."
+            rows="10"
+          ></textarea>
+          <div className="text-right py-3">
+            <button
+              className={`bg${orange} px-4 py-1 rounded-lg font-medium tracking-wider `}
+            >
+              Write
+            </button>
+          </div>
+        </Modal>
+      )}
     </div>
-    // return <><h1>ok</h1></>
-};
+  );
+}

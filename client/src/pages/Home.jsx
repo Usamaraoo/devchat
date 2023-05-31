@@ -6,7 +6,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full my-6">
+    <div className="w-full ">
       <CreatePost/>
       <PostCard  />
     </div>
