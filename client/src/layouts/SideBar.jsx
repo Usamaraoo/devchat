@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import devchatLogo from "../assests/images/logo/devchatIcon.png";
 import useLogout from "../hooks/useLogout";
-
+import { graylight, orange } from "../data/StyleGuide";
 export default function SideBar() {
   const logout = useLogout();
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function SideBar() {
         className=" text-xl top-0 left-0 z-40 w-80 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-full px-8 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className={`h-full px-8 py-4 overflow-y-auto bg-gray-50 bg${graylight}`}>
           <ul className="space-y-2 font-medium">
             <li>
               <div>
@@ -49,7 +49,7 @@ export default function SideBar() {
             <li>
               <Link
                 to='/'
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ export default function SideBar() {
             <li>
               <Link
                 to="/avatar"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -92,12 +92,16 @@ export default function SideBar() {
                 <span className="flex-1 ml-3 whitespace-nowrap">
                   Notifications
                 </span>
+                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium  rounded-full dark:bg-blue-900 dark:text-orange-400">
+                  3
+                </span>
               </Link>
             </li>
             <li>
               <a
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
+
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -114,15 +118,14 @@ export default function SideBar() {
                   />
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">Chat</span>
-                <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">
-                  3
-                </span>
+
               </a>
             </li>
             <li>
               <a
                 href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
+
               >
                 <svg
                   aria-hidden="true"
@@ -146,7 +149,8 @@ export default function SideBar() {
             <li>
               <button
                 onClick={singout}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className={` flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
+
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

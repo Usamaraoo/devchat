@@ -8,7 +8,7 @@ export default function Profile() {
   return (
     <div className="w-full">
       {/* cover */}
-      <div className="h-100 py-4  bg-slate-800 px-8 flex gap-5 ">
+      <div className="h-100 py-4  bg-slate-800 px-8 flex gap-5 cover-bg">
         <div>
           <img src={avatars[0].img} alt="user" className="w-64 rounded-full" />
         </div>

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { avatars } from "../data/Avatars";
-import { bg } from "../data/StyleGuide";
+import { orange } from "../data/StyleGuide";
 export default function Avatar() {
   const navigate = useNavigate();
   const selectedAvater = (name) => {
@@ -35,7 +35,7 @@ export default function Avatar() {
 
       {/* Next */}
       <div className="mt-20 text-end">
-        <button onClick={OnNext} className={`${bg} px-6 py-1 rounded-lg`}>
+        <button onClick={OnNext} className={`bg${orange} px-6 py-1 rounded-lg`}>
           Next
         </button>
       </div>
