@@ -14,7 +14,7 @@ const registerUser = async (req, res) => {
     newUser.password = await bcrypt.hash(password, salt);
     await newUser.save();
     const refreshToken = jwt.sign(
-      { name: newUser.name },
+      {  name: foundUser.name,_id:foundUser._id, email:foundUser.email},
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
@@ -24,7 +24,7 @@ const registerUser = async (req, res) => {
     //  create access token
     const accessToken = jwt.sign(
       {
-        UserInfo: { name: newUser.name },
+        UserInfo: { name: foundUser.name,_id:foundUser._id, email:foundUser.email },
       },
       process.env.JWT_SECRET,
       { expiresIn: "30s" }
@@ -57,13 +57,13 @@ const loginUser = async (req, res) => {
     // create JWTs
     const accessToken = jwt.sign(
       {
-        UserInfo: { name: foundUser.name },
+        UserInfo: { name: foundUser.name,_id:foundUser._id, email:foundUser.email },
       },
       process.env.JWT_SECRET,
-      { expiresIn: "30s" }
+      { expiresIn: "2m" }
     );
     const refreshToken = jwt.sign(
-      { name: foundUser.name },
+      {  name: foundUser.name,_id:foundUser._id, email:foundUser.email },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );

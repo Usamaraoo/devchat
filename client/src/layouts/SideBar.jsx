@@ -5,8 +5,6 @@ import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import {routesNotForSideBar} from '../data/sideBarProtectRoutes'
 export default function SideBar() {
   const location = useLocation();
-
-  console.log();
   const logout = useLogout();
   const navigate = useNavigate();
   const singout = async () => {
@@ -129,7 +127,7 @@ export default function SideBar() {
                     <span className="flex-1 ml-3 whitespace-nowrap">Chat</span>
                   </div>
                 </li>
-                <li>
+                <Link to='/dashboard'>
                   <div
                     className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
                   >
@@ -150,7 +148,7 @@ export default function SideBar() {
                       Developers
                     </span>
                   </div>
-                </li>
+                </Link>
 
                 <li>
                   <button

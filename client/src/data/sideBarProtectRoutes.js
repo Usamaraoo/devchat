@@ -1,1 +1,1 @@
-export const routesNotForSideBar = ["/login", "/register", "/avatar"];
+export const  routesNotForSideBar = ["/login", "/register", "/avatar"];

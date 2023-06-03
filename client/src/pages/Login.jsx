@@ -30,7 +30,6 @@ export default function Login() {
           withCredentials: true,
         });
         if (res.status === 200) {
-          console.log('res',res.data)
           const { foundUser:userData, accessToken, user } = res.data;
           setUser({
             email: "",
