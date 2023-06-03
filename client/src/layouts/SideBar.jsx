@@ -2,7 +2,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import devchatLogo from "../assests/images/logo/devchatIcon.png";
 import useLogout from "../hooks/useLogout";
 import { graylight, hoverTextOrange } from "../data/StyleGuide";
-import {routesNotForSideBar} from '../data/sideBarProtectRoutes'
+import { routesNotForSideBar } from "../data/defaultData";
+
 export default function SideBar() {
   const location = useLocation();
   const logout = useLogout();

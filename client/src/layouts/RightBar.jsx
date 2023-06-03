@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { graylight } from "../data/StyleGuide";
-import { routesNotForSideBar } from "../data/sideBarProtectRoutes";
+import { routesNotForSideBar } from "../data/defaultData";
 
 export default function RightBar() {
   const location = useLocation();
