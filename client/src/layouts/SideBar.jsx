@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import devchatLogo from "../assests/images/logo/devchatIcon.png";
 import useLogout from "../hooks/useLogout";
-import { graylight, orange } from "../data/StyleGuide";
+import { graylight, hoverTextOrange } from "../data/StyleGuide";
 export default function SideBar() {
   const logout = useLogout();
   const navigate = useNavigate();
@@ -27,8 +27,8 @@ export default function SideBar() {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            clip-rule="evenodd"
-            fill-rule="evenodd"
+            clipRule="evenodd"
+            fillRule="evenodd"
             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
           ></path>
         </svg>
@@ -49,7 +49,7 @@ export default function SideBar() {
             <li>
               <Link
                 to='/'
-                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ export default function SideBar() {
             <li>
               <Link
                 to="/avatar"
-                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +99,7 @@ export default function SideBar() {
             </li>
             <li>
               <div
-                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
 
               >
                 <svg
@@ -122,7 +122,7 @@ export default function SideBar() {
             </li>
             <li>
               <div
-                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
+                className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
 
               >
                 <svg
@@ -133,9 +133,9 @@ export default function SideBar() {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                    clip-rule="evenodd"
+                    clipRule="evenodd"
                   ></path>
                 </svg>
                 <span className="flex-1 ml-3 whitespace-nowrap">
@@ -147,7 +147,7 @@ export default function SideBar() {
             <li>
               <button
                 onClick={singout}
-                className={` flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 hover:text${orange}`}
+                className={` flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
 
               >
                 <svg

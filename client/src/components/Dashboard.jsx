@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import useAuth from "../hooks/useAuth";
 export default function Dashboard() {
   const [user, setUser] = useState({});
   const axiosPrivate = useAxiosPrivate();

@@ -1,14 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { avatars } from "../data/Avatars";
 import { orange } from "../data/StyleGuide";
+import { useState } from "react";
 export default function Avatar() {
+  const [selectedAvt, setSelectedAvt] = useState("");
+  const selectedClasses =
+    "border-4 border-orange-400 opacity-100 shadow-md shadow-orange-300 -translate-y-3";
   const navigate = useNavigate();
   const selectedAvater = (name) => {
-    console.log(name);
+    setSelectedAvt(name);
   };
   const OnNext = () => {
     navigate("/profile");
   };
+
   return (
     <div>
       <h3 className="font-bold text-3xl tracking-wider py-8 text-center">
@@ -22,7 +27,13 @@ export default function Avatar() {
               <div
                 onClick={() => selectedAvater(name)}
                 key={id}
-                className=" w-40 bg-gray-700 hover:-translate-y-5 transition-all hover:shadow-lg hover:shadow-orange-300 rounded overflow-hidden hover:text-orange-300 shadow-lg opacity-60 hover:opacity-100 cursor-pointer duration-500"
+                className={` w-40 bg-gray-700 hover:-translate-y-5 
+                transition-all hover:shadow-lg hover:shadow-orange-300 rounded 
+                overflow-hidden hover:text-orange-300  opacity-60 hover:opacity-100
+                 cursor-pointer duration-500 ${
+                   selectedAvt === name && selectedClasses
+                 }
+                 `}
               >
                 <img src={img} alt={name} className="min-w-full" />
                 <p className="text-center tracking-wider text-xl font-medium p-2 ">

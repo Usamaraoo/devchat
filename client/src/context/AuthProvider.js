@@ -8,9 +8,9 @@ export const AuthProiver = ({ children }) => {
     JSON.parse(localStorage.getItem("persist")) || false
   );
 
-  useEffect(() => {
-    console.log("auth", auth);
-  }, [auth]);
+  // useEffect(() => {
+  //   console.log("auth", auth);
+  // }, [auth]);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth, persist, setPersist }}>
