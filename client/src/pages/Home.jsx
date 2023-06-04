@@ -7,8 +7,13 @@ export default function Home() {
 
   return (
     <div className="w-full ">
-      <CreatePost/>
-      <PostCard  />
+      <div className="px-8">
+        <CreatePost />
+      </div>
+      {/* posts timeline */}
+      <div className=" mx-8 m-auto">
+        <PostCard />
+      </div>
     </div>
   );
 }
