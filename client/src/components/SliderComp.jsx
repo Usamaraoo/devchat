@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 export default function SliderComp({ data, selectedAvater ,selectedAvt}) {
   const selectedClasses =
-    "border-4 border-orange-400 opacity-100 shadow-md shadow-orange-300 -translate-y-3";
+    "border-4 border-orange-400 opacity-100 shadow-md shadow-orange-300 -translate-y-3 text-lg";
   return (
     <div className="m-auto min-h-full avt-sldr  ">
       <Slide slidesToScroll={4} slidesToShow={4} autoplay={false} duration={500000} indicators={true} cssClass="  ">
@@ -19,13 +19,13 @@ export default function SliderComp({ data, selectedAvater ,selectedAvt}) {
                   className={` w-5/6 mt-10 bg-gray-700 hover:-translate-y-5 
                 transition-all hover:shadow-lg hover:shadow-orange-300 rounded 
                 overflow-hidden hover:text-orange-300   hover:opacity-100
-                 cursor-pointer duration-500 ${
+                 cursor-pointer duration-700 ${
                    selectedAvt === name ? selectedClasses : "opacity-60"
                  }
                  `}
                 >
                   <img src={img} alt={name} className="min-w-full" />
-                  <p className="text-center tracking-wider text-xl font-medium p-2 ">
+                  <p className="text-center tracking-wider  font-medium p-2 ">
                     {name}
                   </p>
                 </div>
