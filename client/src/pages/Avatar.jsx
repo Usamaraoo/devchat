@@ -3,15 +3,28 @@ import { avatars } from "../data/Avatars";
 import { orange } from "../data/StyleGuide";
 import { useState } from "react";
 import SliderComp from "../components/SliderComp";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export default function Avatar() {
+  const axiosPrivate = useAxiosPrivate();
+
   const [selectedAvt, setSelectedAvt] = useState("");
   const navigate = useNavigate();
   const selectedAvater = (name) => {
     setSelectedAvt(name);
   };
-  const OnNext = () => {
-    navigate("/profile");
+  const OnNext = async () => {
+    try {
+      const res = await axiosPrivate.patch("/api/user/set-avatar", {
+        avatar: selectedAvt,
+      });
+      if (res.status === 200) {
+        const avatar = await res.data;
+        navigate("/profile");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div>
