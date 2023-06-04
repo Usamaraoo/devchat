@@ -16,7 +16,7 @@ import Profile from './pages/Profile'
 
 function App() {
   return (
-    <div className="text-white  bg-gray-900  ">
+    <div className="text-white   ">
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>

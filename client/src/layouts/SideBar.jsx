@@ -3,8 +3,10 @@ import devchatLogo from "../assests/images/logo/devchatIcon.png";
 import useLogout from "../hooks/useLogout";
 import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import { routesNotForSideBar } from "../data/defaultData";
+import useAuth from "../hooks/useAuth";
 
 export default function SideBar() {
+  const { auth } = useAuth();
   const location = useLocation();
   const logout = useLogout();
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export default function SideBar() {
   };
   return (
     <div>
-      {!routesNotForSideBar.includes(location.pathname) && (
+      {!routesNotForSideBar.includes(location.pathname) && auth.user  && (
         <div>
           <button
             data-drawer-target="default-sidebar"
