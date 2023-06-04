@@ -19,7 +19,7 @@ export default function Avatar() {
       <h3 className="font-bold text-3xl tracking-wider py-8 text-center">
         Select your Avatar
       </h3>
-      <div className="flex justify-center mt-5 gap-11">
+      <div className="flex justify-center mt-5 gap-11 flex-wrap">
         {avatars &&
           avatars.map((av) => {
             const { id, img, name } = av;
