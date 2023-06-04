@@ -4,9 +4,7 @@ import { defaultDevImg } from "../data/defaultData";
 
 export default function PostCard({ userName, userImg, body, time }) {
   return (
-    <div
-      className={` post-card w-4/5 bg${graylight}  mx-12 px-4 py-2 rounded-sm  `}
-    >
+    <div className={` post-card   bg${graylight}  mx-12 px-4 py-2 rounded-sm  `}>
       <div className="flex gap-2 mb-2">
         <img
           className="rounded-full w-10 "

@@ -32,10 +32,10 @@ export default function CreatePost() {
     }
   };
   return (
-    <div className={` w-4/5 m-auto bg${graylight} rounded-md   p-3  my-4`}>
+    <div className={`  m-auto bg${graylight} rounded-md   p-3  my-4`}>
       <p
         onClick={changeModalState}
-        className={`text-sm text-gray-300 ${hoverTextOrange}`}
+        className={`text-sm text-gray-300 cursor-pointer ${hoverTextOrange}`}
       >
         What's on your mind?
       </p>

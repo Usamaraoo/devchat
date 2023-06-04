@@ -59,7 +59,7 @@ export default function Profile() {
           devPosts.map((post) => {
             const { _id, body } = post;
             return (
-              <div key={_id}  className="my-6">
+              <div key={_id}  className="my-6 px-6">
                 <PostCard
                   userName={userData?.name}
                   body={body}
