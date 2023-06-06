@@ -1,12 +1,14 @@
 import { useLocation } from "react-router-dom";
 import { graylight } from "../data/StyleGuide";
 import { routesNotForSideBar } from "../data/defaultData";
+import useAuth from "../hooks/useAuth";
 
 export default function RightBar() {
+  const { auth } = useAuth();
   const location = useLocation();
   return (
     <div>
-      {!routesNotForSideBar.includes(location.pathname) && (
+      {!routesNotForSideBar.includes(location.pathname) && auth.user && (
         <div>
           <button
             data-drawer-target="default-sidebar"

@@ -14,30 +14,33 @@ const registerUser = async (req, res) => {
     newUser.password = await bcrypt.hash(password, salt);
     await newUser.save();
     const refreshToken = jwt.sign(
-      {  name: foundUser.name,_id:foundUser._id, email:foundUser.email},
+      { name: foundUser.name, _id: foundUser._id, email: foundUser.email },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
     // Saving refreshToken with current user
     newUser.refreshToken = refreshToken;
-    newUser.save()
+    newUser.save();
     //  create access token
     const accessToken = jwt.sign(
       {
-        UserInfo: { name: foundUser.name,_id:foundUser._id, email:foundUser.email },
+        UserInfo: {
+          name: foundUser.name,
+          _id: foundUser._id,
+          email: foundUser.email,
+        },
       },
       process.env.JWT_SECRET,
       { expiresIn: "30s" }
     );
-     // Creates Secure Cookie with refresh token
+    // Creates Secure Cookie with refresh token
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ foundUser:newUser, accessToken, user: true });
-
+    res.json({ foundUser: newUser, accessToken, user: true });
   } catch (error) {
     res.status(500).json({ err: "something went wrong" });
   }
@@ -57,13 +60,17 @@ const loginUser = async (req, res) => {
     // create JWTs
     const accessToken = jwt.sign(
       {
-        UserInfo: { name: foundUser.name,_id:foundUser._id, email:foundUser.email },
+        UserInfo: {
+          name: foundUser.name,
+          _id: foundUser._id,
+          email: foundUser.email,
+        },
       },
       process.env.JWT_SECRET,
       { expiresIn: "2m" }
     );
     const refreshToken = jwt.sign(
-      {  name: foundUser.name,_id:foundUser._id, email:foundUser.email },
+      { name: foundUser.name, _id: foundUser._id, email: foundUser.email },
       process.env.JWT_SECRET,
       { expiresIn: "2h" }
     );
@@ -118,9 +125,32 @@ const userInfo = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+const setUserAvatar = async (req, res) => {
+  try {
+    const { avatar } = req.body;
+    const { _id } = req.user;
+    if (avatar) {
+      const dev = await UserModel.findById(_id);
+      if (dev) {
+        dev.avatar = avatar;
+        dev.save();
+        res.json(dev.avatar);
+      } else {
+        res.status(204).json({ error: "User not found" });
+      }
+    } else {
+      res.status(204).json({ error: "avatar is not empty" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+};
 module.exports = {
   registerUser,
   loginUser,
   userInfo,
   logoutUser,
+  setUserAvatar,
 };
