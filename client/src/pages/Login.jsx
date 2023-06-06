@@ -10,8 +10,8 @@ export default function Login() {
   const location = useLocation();
   const from = location.state?.from.pathname || "/";
   const [user, setUser] = useState({
-    email: "",
-    password: "",
+    email: "usamakaleem505@gmail.com",
+    password: "usama",
   });
 
   const handleChange = (e) => {

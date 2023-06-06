@@ -1,33 +1,35 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import { defaultDevImg } from "../data/defaultData";
-import { useNavigate } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+// import { useState, useEffect } from "react";
 
-export default function PostCard({ userName, userImg, body, time, postId }) {
-  const navigate = useNavigate();
+export default function PostDetail() {
+  const {
+    auth: { userData },
+  } = useAuth();
+  const {
+    state: { body },
+  } = useLocation();
+  const time = "45m";
   return (
     <div
-      className={` post-card   bg${graylight}  mx-12 px-4 py-2 rounded-sm  `}
+      className={`w-full h-fit bg${graylight}  mx-8 px-4 py-5 my-5 rounded-sm  `}
     >
-      <div className="flex gap-2 mb-2">
+      <Link to={"/profile"} className="flex gap-2 mb-2">
         <img
-          className="rounded-full w-10 "
-          src={userImg ? userImg : defaultDevImg}
+          className="rounded-full w-14 "
+          src={userData.img ? userData.img : defaultDevImg}
           alt="user"
         />
-        <div className=" flex gap-2 items-center">
-          <p>{userName}</p>
+        <div className=" flex text-xl gap-2 items-center">
+          <p>{userData.name}</p>
           <small className="text-xs text-gray-300">{time}</small>
         </div>
-      </div>
+      </Link>
       <div>
-        <div
-          onClick={() => {
-            navigate(`/post/${postId}`, { state: { body } });
-          }}
-        >
-          {body && body}
-        </div>
+        <p className="text-xl">{body}</p>
       </div>
       <div className="mt-4 ">
         <div className="flex gap-4">

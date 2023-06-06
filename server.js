@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const UserApies = require("./apies/userApies");
 const DevPosts = require("./apies/postApi");
-
+const PostComments = require('./apies/commentsApi')
 require("dotenv").config();
 
 const app = express();
@@ -33,6 +33,7 @@ mongoose
 
 app.use("/api", UserApies);
 app.use("/api/dev-posts", DevPosts);
+app.use("/api/post-comment", PostComments);
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

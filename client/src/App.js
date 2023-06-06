@@ -13,6 +13,7 @@ import Avatar from "./pages/Avatar";
 import SideBar from "./layouts/SideBar";
 import RightBar from "./layouts/RightBar";
 import Profile from './pages/Profile'
+import PostDetail from "./pages/PostDetail";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/avatar" element={<Avatar />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/post/:slug" element={<PostDetail />} />
               </Route>
             </Route>
           </Routes>
