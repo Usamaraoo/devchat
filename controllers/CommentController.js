@@ -1,0 +1,37 @@
+const PostComment = require("../models/Comments");
+
+const createComment = async (req, res) => {
+  try {
+    console.log("comment api create");
+    const { comment, postId } = req.body;
+    const { _id } = req.user;
+    if (comment && postId) {
+      const post = await PostComment.create({ comment, postId, devId: _id });
+      res.json(post);
+    } else {
+      res.status(204).json({ error: "missing request params" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getPostComments = async (req, res) => {
+  try {
+    console.log("d");
+    //     const { postId } = req.body;
+    //     if (_id) {
+    //       const devPosts = await PostComment.find({ postId });
+    //       res.json(devPosts);
+    //     } else {
+    //       res.status(204).json({ error: "missing params" });
+    // }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  createComment,
+  getPostComments,
+};

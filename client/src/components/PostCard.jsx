@@ -1,10 +1,14 @@
 import React from "react";
 import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import { defaultDevImg } from "../data/defaultData";
+import { useNavigate } from "react-router-dom";
 
-export default function PostCard({ userName, userImg, body, time }) {
+export default function PostCard({ userName, userImg, body, time, postId }) {
+  const navigate = useNavigate();
   return (
-    <div className={` post-card   bg${graylight}  mx-12 px-4 py-2 rounded-sm  `}>
+    <div
+      className={` post-card   bg${graylight}  mx-12 px-4 py-2 rounded-sm  `}
+    >
       <div className="flex gap-2 mb-2">
         <img
           className="rounded-full w-10 "
@@ -17,15 +21,14 @@ export default function PostCard({ userName, userImg, body, time }) {
         </div>
       </div>
       <div>
-        {body ? (
-          body
-        ) : (
-          <p className=" text-gray-50 tracking-wider">
-            MERN Stack Developer | React, Node.js, MongoDB, and Express |
-            Building robust and scalable web applications to solve complex
-            problems
-          </p>
-        )}
+        <div
+          className="cursor-pointer"
+          onClick={() => {
+            navigate(`/post/${postId}`, { state: { body, postId } });
+          }}
+        >
+          {body && body}
+        </div>
       </div>
       <div className="mt-4 ">
         <div className="flex gap-4">
