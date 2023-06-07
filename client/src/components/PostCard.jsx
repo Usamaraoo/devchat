@@ -22,8 +22,9 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
       </div>
       <div>
         <div
+          className="cursor-pointer"
           onClick={() => {
-            navigate(`/post/${postId}`, { state: { body } });
+            navigate(`/post/${postId}`, { state: { body, postId } });
           }}
         >
           {body && body}

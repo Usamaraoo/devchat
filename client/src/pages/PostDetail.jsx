@@ -4,6 +4,7 @@ import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import { defaultDevImg } from "../data/defaultData";
 import useAuth from "../hooks/useAuth";
 import Comments from "../components/Comments";
+import WriteComment from "../components/WriteComment";
 // import { useState, useEffect } from "react";
 
 export default function PostDetail() {
@@ -11,7 +12,7 @@ export default function PostDetail() {
     auth: { userData },
   } = useAuth();
   const {
-    state: { body },
+    state: { body, postId },
   } = useLocation();
   const time = "45m";
   return (
@@ -93,6 +94,8 @@ export default function PostDetail() {
           </div>
         </div>
       </div>
+      {/* write comment */}
+      <WriteComment postId={postId} />
       {/* comments  */}
       <div>
         <Comments
@@ -101,7 +104,7 @@ export default function PostDetail() {
           userImg={defaultDevImg}
           time={"34m"}
         />
-         <Comments
+        <Comments
           comment={"Thats exactly my what I think"}
           userName={"dev"}
           userImg={defaultDevImg}
