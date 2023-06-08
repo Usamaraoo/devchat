@@ -40,7 +40,11 @@ export default function Profile() {
       {/* cover */}
       <div className="h-100 py-4  bg-slate-800 px-8 flex gap-5 cover-bg">
         <div>
-          <img src={avatars[0]?.img} alt="user" className="w-64 rounded-full" />
+          <img
+            src={userData.avatarUrl ? userData.avatarUrl : defaultDevImg}
+            alt="user"
+            className="w-64 rounded-full"
+          />
         </div>
         <div className="mt-6">
           <p className="text-xl font-medium tracking-widest">
@@ -59,7 +63,7 @@ export default function Profile() {
           devPosts.map((post) => {
             const { _id, body } = post;
             return (
-              <div key={_id}  className="my-6 px-6">
+              <div key={_id} className="my-6 px-6">
                 <PostCard
                   userName={userData?.name}
                   body={body}

@@ -4,7 +4,7 @@ import LoginRegsterSide from "../layouts/LoginRegsterSide";
 import { useState } from "react";
 import axios from "../apies/axios";
 import useAuth from "../hooks/useAuth";
-
+import { defaultDevImg } from "../data/defaultData";
 export default function Register() {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ export default function Register() {
           name,
           email,
           password,
+          avatarUrl:defaultDevImg,
         });
         if (res.status === 200) {
           const { foundUser, accessToken, user } = res.data;

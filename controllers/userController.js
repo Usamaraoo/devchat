@@ -4,12 +4,18 @@ const bcrypt = require("bcryptjs");
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, avatarUrl } = req.body;
     const user = await UserModel.findOne({ email });
     if (user) {
       res.status(500).json({ error: "user with this email already exists" });
     }
-    const newUser = await UserModel.create({ name, email, password });
+    const newUser = await UserModel.create({
+      name,
+      email,
+      password,
+      avatarUrl,
+      avatar: "default",
+    });
     const salt = await bcrypt.genSalt(10);
     newUser.password = await bcrypt.hash(password, salt);
     await newUser.save();
@@ -128,14 +134,15 @@ const userInfo = async (req, res) => {
 
 const setUserAvatar = async (req, res) => {
   try {
-    const { avatar } = req.body;
+    const { avatar, avatarUrl } = req.body;
     const { _id } = req.user;
     if (avatar) {
       const dev = await UserModel.findById(_id);
       if (dev) {
         dev.avatar = avatar;
+        dev.avatarUrl = avatarUrl;
         dev.save();
-        res.json(dev.avatar);
+        res.json({ avatar: dev.avatar, avatarUrl: dev.avatarUrl });
       } else {
         res.status(204).json({ error: "User not found" });
       }
