@@ -1,13 +1,13 @@
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
 export default function SliderComp({ data, selectedAvater ,selectedAvt}) {
   const selectedClasses =
     "border-4 border-orange-400 opacity-100 shadow-md shadow-orange-300 -translate-y-3 text-lg";
   return (
     <div className="m-auto min-h-full avt-sldr  ">
-      <Slide slidesToScroll={4} slidesToShow={4} autoplay={false} duration={500000} indicators={true} cssClass="  ">
+      <Slide slidesToScroll={4} slidesToShow={4} autoplay={false} duration={5000} indicators={true} cssClass="  ">
         {data &&
           data?.map((av) => {
             const { id, img, name } = av;
@@ -24,7 +24,7 @@ export default function SliderComp({ data, selectedAvater ,selectedAvt}) {
                  }
                  `}
                 >
-                  <img src={img} alt={name} className="min-w-full" />
+                  <LazyLoadImage src={img} alt={name} className="w-40 m-auto p-2 " />
                   <p className="text-center tracking-wider  font-medium p-2 ">
                     {name}
                   </p>

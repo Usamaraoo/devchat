@@ -4,6 +4,7 @@ import LoginRegsterSide from "../layouts/LoginRegsterSide";
 import { useEffect, useState } from "react";
 import axios from "../apies/axios";
 import useAuth from "../hooks/useAuth";
+import { avatars } from "../data/Avatars";
 export default function Login() {
   const { setAuth, persist, setPersist } = useAuth();
   const navigate = useNavigate();
@@ -24,18 +25,29 @@ export default function Login() {
   const login = async (e) => {
     e.preventDefault();
     try {
+      let avatImg = "";
       const { email, password } = user;
       if (email && password) {
         const res = await axios.post("/api/login", user, {
           withCredentials: true,
         });
         if (res.status === 200) {
-          const { foundUser:userData, accessToken, user } = res.data;
+          const { foundUser: userData, accessToken, user } = res.data;
           setUser({
             email: "",
             password: "",
           });
-          setAuth({ userData, accessToken, user });
+          // setting avatar image from the list to user obj
+          avatars.map((av) => {
+            if (av.name === userData.avatar) {
+              avatImg = av.img;
+            }
+          });
+          setAuth({
+            userData: { ...userData, img: avatImg },
+            accessToken,
+            user,
+          });
           navigate(from, { replace: true });
         }
       } else {
@@ -45,14 +57,14 @@ export default function Login() {
       console.log(error);
     }
   };
-  const togglePersist = ()=>{
-    console.log('persist',persist);
-    setPersist(!persist)
-  }
+  const togglePersist = () => {
+    console.log("persist", persist);
+    setPersist(!persist);
+  };
   useEffect(() => {
-    localStorage.setItem("persist",persist)
-  }, [persist])
-  
+    localStorage.setItem("persist", persist);
+  }, [persist]);
+
   return (
     <div className="h-screen md:flex">
       <LoginRegsterSide imgSpc={loginImg} />
@@ -122,9 +134,7 @@ export default function Login() {
               defaultChecked={false}
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label
-              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-            >
+            <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
               Remember me
             </label>
           </div>
