@@ -2,8 +2,9 @@ import React from "react";
 import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import { defaultDevImg } from "../data/defaultData";
 import { useNavigate } from "react-router-dom";
+import getTimeAgoString from "../utls/calculateTIme";
 
-export default function PostCard({ userName, userImg, body, time, postId }) {
+export default function PostCard({ userName, userImg, body, time, postId,createdAt }) {
   const navigate = useNavigate();
   return (
     <div
@@ -17,14 +18,14 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
         />
         <div className=" flex gap-2 items-center">
           <p>{userName}</p>
-          <small className="text-xs text-gray-300">{time}</small>
+          <small className="text-xs text-gray-300">{getTimeAgoString(new Date(time))}</small>
         </div>
       </div>
       <div>
         <div
           className="cursor-pointer"
           onClick={() => {
-            navigate(`/post/${postId}`, { state: { body, postId } });
+            navigate(`/post/${postId}`, { state: { body, postId,time:getTimeAgoString(new Date(time)) } });
           }}
         >
           {body && body}

@@ -2,12 +2,18 @@ const PostComment = require("../models/Comments");
 
 const createComment = async (req, res) => {
   try {
-    console.log("comment api create");
     const { comment, postId } = req.body;
     const { _id } = req.user;
     if (comment && postId) {
-      const post = await PostComment.create({ comment, postId, devId: _id });
-      res.json(post);
+      const newComment = await PostComment.create({
+        comment,
+        postId,
+        devId: _id,
+      });
+      const commentWithUser = await PostComment.findById(
+        newComment._id
+      ).populate("devId");
+      res.json(commentWithUser);
     } else {
       res.status(204).json({ error: "missing request params" });
     }
@@ -18,14 +24,17 @@ const createComment = async (req, res) => {
 
 const getPostComments = async (req, res) => {
   try {
-    console.log("d");
-    //     const { postId } = req.body;
-    //     if (_id) {
-    //       const devPosts = await PostComment.find({ postId });
-    //       res.json(devPosts);
-    //     } else {
-    //       res.status(204).json({ error: "missing params" });
-    // }
+    const { _id } = req.user;
+    const { postId } = req.params;
+    if (_id) {
+      const devComment = await PostComment.find({ postId }).populate({
+        path: "devId",
+        select: "name avatarUrl",
+      });
+      res.json(devComment);
+    } else {
+      res.status(204).json({ error: "missing params" });
+    }
   } catch (error) {
     console.log(error);
   }

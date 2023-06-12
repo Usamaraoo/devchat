@@ -61,10 +61,11 @@ export default function Profile() {
       <div className="my-10">
         {devPosts &&
           devPosts.map((post) => {
-            const { _id, body } = post;
+            const { _id, body, createdAt } = post;
             return (
               <div key={_id} className="my-6 px-6">
                 <PostCard
+                  time={createdAt}
                   userName={userData?.name}
                   body={body}
                   userImg={defaultDevImg}

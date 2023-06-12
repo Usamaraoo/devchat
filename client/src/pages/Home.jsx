@@ -41,7 +41,7 @@ export default function Home() {
       <div className=" mx-8 m-auto">
         {devPosts &&
           devPosts.map((post) => {
-            const { _id, body } = post;
+            const { _id, body ,createdAt} = post;
             return (
               <div key={_id} className="my-6 px-6">
                 <PostCard
@@ -49,6 +49,7 @@ export default function Home() {
                   userName={userData?.name}
                   body={body}
                   userImg={defaultDevImg}
+                  time={createdAt}
                 />
               </div>
             );

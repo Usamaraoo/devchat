@@ -1,5 +1,4 @@
 import {
-  grayDark,
   graylight,
   hoverTextOrange,
   orange,
@@ -44,7 +43,7 @@ export default function CreatePost() {
           <form onSubmit={submitPost}>
             <textarea
               onChange={(e) => setPostText(e.target.value)}
-              className={`w-full  p-2 bg${grayDark}`}
+              className={`w-full  p-2 bg-gray-800`}
               name="post"
               id=""
               placeholder="Start writing..."

@@ -1,7 +1,7 @@
 import { grayDark, orange } from "../data/StyleGuide";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState } from "react";
-export default function WriteComment({ postId }) {
+export default function WriteComment({ postId,updateComments }) {
   const axiosPrivate = useAxiosPrivate();
 
   const [comment, setComment] = useState("");
@@ -15,8 +15,9 @@ export default function WriteComment({ postId }) {
         });
         if (res.status === 200) {
           setComment("");
-          alert("Comment added successfully");
-        }
+          // updating comments state on new comment
+          updateComments(res.data)
+          }
       }
     } catch (error) {
       console.log(error);
@@ -30,7 +31,7 @@ export default function WriteComment({ postId }) {
           type="text"
           onChange={(e) => setComment(e.target.value)}
           value={comment}
-          className={`w-full  p-2 bg${grayDark} py-2 pr-20`}
+          className={`w-full  p-2 bg-gray-800 py-2 pr-20`}
           placeholder="Write a comment"
         />
         <button
