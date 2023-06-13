@@ -68,7 +68,7 @@ export default function Profile() {
                   time={createdAt}
                   userName={userData?.name}
                   body={body}
-                  userImg={defaultDevImg}
+                  userImg={userData.avatarUrl}
                 />
               </div>
             );

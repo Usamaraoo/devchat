@@ -1,7 +1,7 @@
 import { grayDark, orange } from "../data/StyleGuide";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState } from "react";
-export default function WriteComment({ postId,updateComments }) {
+export default function WriteComment({ postId,setCurrentComment }) {
   const axiosPrivate = useAxiosPrivate();
 
   const [comment, setComment] = useState("");
@@ -14,10 +14,12 @@ export default function WriteComment({ postId,updateComments }) {
           postId,
         });
         if (res.status === 200) {
+          
           setComment("");
-          // updating comments state on new comment
-          updateComments(res.data)
+          setCurrentComment(comment)
           }
+      }else{
+        alert('add more than 10 words')
       }
     } catch (error) {
       console.log(error);

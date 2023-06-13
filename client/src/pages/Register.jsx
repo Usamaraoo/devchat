@@ -29,16 +29,9 @@ export default function Register() {
           name,
           email,
           password,
-          avatarUrl:defaultDevImg,
         });
         if (res.status === 200) {
-          const { foundUser, accessToken, user } = res.data;
-          setUser({
-            email: "",
-            password: "",
-          });
-          setAuth({ foundUser, accessToken, user });
-          navigate("/avatar");
+          navigate("/login");
         }
       } else {
         alert("invalid input");

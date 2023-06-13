@@ -9,7 +9,8 @@ export default function Home() {
   const {
     auth: { userData },
   } = useAuth();
-  const [devPosts, setDevPosts] = useState(null);
+  const [alldevPosts, setAllDevPosts] = useState(null);
+  const [currentPost, setCurrentPost] = useState(null);
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -20,7 +21,7 @@ export default function Home() {
         });
         if (res.status === 200) {
           const posts = await res.data;
-          isMounted && setDevPosts(posts);
+          isMounted && setAllDevPosts(posts);
         }
       } catch (error) {
         console.log(error);
@@ -35,20 +36,36 @@ export default function Home() {
   return (
     <div className="w-full ">
       <div className="px-8">
-        <CreatePost />
+        <CreatePost setCurrentPost={setCurrentPost} />
       </div>
       {/* posts timeline */}
       <div className=" mx-8 m-auto">
-        {devPosts &&
-          devPosts.map((post) => {
-            const { _id, body ,createdAt} = post;
+        {currentPost && (
+          <div className="my-6 px-6">
+            <PostCard
+              postId={"new-post-need-slug"}
+              userName={userData?.name}
+              body={currentPost}
+              userImg={userData?.avatarUrl}
+              time={new Date()}
+            />
+          </div>
+        )}
+        {alldevPosts &&
+          alldevPosts.map((post) => {
+            const {
+              _id,
+              body,
+              createdAt,
+              devId: { avatarUrl, name },
+            } = post;
             return (
               <div key={_id} className="my-6 px-6">
                 <PostCard
                   postId={_id}
-                  userName={userData?.name}
+                  userName={name}
                   body={body}
-                  userImg={defaultDevImg}
+                  userImg={avatarUrl}
                   time={createdAt}
                 />
               </div>

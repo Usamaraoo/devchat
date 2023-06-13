@@ -5,12 +5,12 @@ export default function getTimeAgoString(previousTime) {
     return `${timeDifference}s`;
   } else if (timeDifference < 3600) {
     const minutes = Math.floor(timeDifference / 60);
-    return `${minutes} min${minutes > 1 ? "s" : ""}`;
+    return `${minutes}m${minutes > 1 ? "" : ""}`;
   } else if (timeDifference < 86400) {
     const hours = Math.floor(timeDifference / 3600);
     return `${hours}h${hours > 1 ? "" : ""}`;
   } else {
     const days = Math.floor(timeDifference / 86400);
-    return `${days} d${days > 1 ? "s" : ""}`;
+    return `${days}d${days > 1 ? "s" : ""}`;
   }
 }

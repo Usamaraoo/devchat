@@ -187,7 +187,7 @@ export default function SideBar() {
             >
               <div className="flex justify-between">
                 <p className="font-medium self-center tracking-widest">
-                  DevUsama
+                  {auth?.userData?.name}
                 </p>
                 <img
                   className="rounded-full w-10 "

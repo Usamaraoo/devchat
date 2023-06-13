@@ -13,11 +13,12 @@ import getTimeAgoString from "../utls/calculateTIme";
 export default function PostDetail() {
   const axiosPrivate = useAxiosPrivate();
   const [commentState, setCommentState] = useState(null);
+  const [currentComment, setCurrentComment ] = useState(null)
   const {
     auth: { userData },
   } = useAuth();
   const {
-    state: { body, postId,time },
+    state: { body, postId, time, userName, userImg },
   } = useLocation();
   // updating comments state on new comment
   const updateComments = (newComment) => {
@@ -40,11 +41,11 @@ export default function PostDetail() {
         <Link to={"/profile"} className="flex gap-2 mb-2">
           <img
             className="rounded-full w-14 "
-            src={userData.avatarUrl ? userData.avatarUrl : defaultDevImg}
+            src={userImg ? userImg : defaultDevImg}
             alt="user"
           />
           <div className=" flex text-xl gap-2 items-center">
-            <p>{userData.name}</p>
+            <p>{userName}</p>
             <small className="text-xs text-gray-300">{time}</small>
           </div>
         </Link>
@@ -114,9 +115,15 @@ export default function PostDetail() {
         </div>
       </div>
       {/* write comment */}
-      <WriteComment postId={postId} updateComments={updateComments} />
+      <WriteComment postId={postId} setCurrentComment={setCurrentComment} />
       {/* Post comments  */}
       <div>
+      {currentComment &&<Comments
+                  comment={currentComment}
+                  userName={userData?.name}
+                  userImg={userData?.avatarUrl}
+                  time={getTimeAgoString(new Date())}
+        />}
         {commentState &&
           commentState.map((singleComment) => {
             const {

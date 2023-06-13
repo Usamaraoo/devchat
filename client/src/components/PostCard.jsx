@@ -4,7 +4,7 @@ import { defaultDevImg } from "../data/defaultData";
 import { useNavigate } from "react-router-dom";
 import getTimeAgoString from "../utls/calculateTIme";
 
-export default function PostCard({ userName, userImg, body, time, postId,createdAt }) {
+export default function PostCard({ userName, userImg, body, time, postId }) {
   const navigate = useNavigate();
   return (
     <div
@@ -25,7 +25,7 @@ export default function PostCard({ userName, userImg, body, time, postId,created
         <div
           className="cursor-pointer"
           onClick={() => {
-            navigate(`/post/${postId}`, { state: { body, postId,time:getTimeAgoString(new Date(time)) } });
+            navigate(`/post/${postId}`, { state: {userName,userImg, body, postId,time:getTimeAgoString(new Date(time)) } });
           }}
         >
           {body && body}

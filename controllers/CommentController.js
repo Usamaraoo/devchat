@@ -12,7 +12,10 @@ const createComment = async (req, res) => {
       });
       const commentWithUser = await PostComment.findById(
         newComment._id
-      ).populate("devId");
+      ).populate({
+        path: "devId",
+        select: "name avatarUrl",
+      });
       res.json(commentWithUser);
     } else {
       res.status(204).json({ error: "missing request params" });
@@ -30,7 +33,7 @@ const getPostComments = async (req, res) => {
       const devComment = await PostComment.find({ postId }).populate({
         path: "devId",
         select: "name avatarUrl",
-      });
+      }).sort({ createdAt: -1 });
       res.json(devComment);
     } else {
       res.status(204).json({ error: "missing params" });

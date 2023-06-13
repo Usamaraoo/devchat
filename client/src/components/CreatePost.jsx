@@ -7,7 +7,7 @@ import Modal from "./Modal";
 import useModal from "../hooks/useModal";
 import { useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-export default function CreatePost() {
+export default function CreatePost({setCurrentPost}) {
   const [openModal, changeModalState] = useModal();
   const [postText, setPostText] = useState("");
   const axiosPrivate = useAxiosPrivate();
@@ -21,6 +21,7 @@ export default function CreatePost() {
         });
         if (res.status === 200) {
           setPostText("");
+          setCurrentPost(res?.data?.body)
         }
         changeModalState();
       } else {
