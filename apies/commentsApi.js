@@ -5,6 +5,6 @@ const auth = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router.post("/",auth, createComment);
-router.get("/",auth, getPostComments);
+router.get("/:postId",auth, getPostComments);
 
 module.exports = router;

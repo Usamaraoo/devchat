@@ -25,7 +25,6 @@ export default function Login() {
   const login = async (e) => {
     e.preventDefault();
     try {
-      let avatImg = "";
       const { email, password } = user;
       if (email && password) {
         const res = await axios.post("/api/login", user, {
@@ -37,18 +36,19 @@ export default function Login() {
             email: "",
             password: "",
           });
-          // setting avatar image from the list to user obj
-          avatars.map((av) => {
-            if (av.name === userData.avatar) {
-              avatImg = av.img;
-            }
-          });
+          // // setting avatar image from the list to user obj
+          // avatars.map((av) => {
+          //   if (av.name === userData.avatar) {
+          //     avatImg = av.img;
+          //   }
+          // });
           setAuth({
-            userData: { ...userData, img: avatImg },
+            userData: { ...userData, },
             accessToken,
             user,
           });
-          navigate(from, { replace: true });
+          userData?.avatar ?  navigate(from, { replace: true }):navigate('/avatar')
+         
         }
       } else {
         alert("invalid input");

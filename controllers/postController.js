@@ -19,7 +19,10 @@ const getDevPost = async (req, res) => {
   try {
     const { _id } = req.user;
     if (_id) {
-      const devPosts = await DevPostModel.find({ devId: _id });
+      const devPosts = await DevPostModel.find().populate({
+        path: "devId",
+        select: "name avatarUrl",
+      }).sort({ createdAt: -1 });
       res.json(devPosts);
     } else {
       res.status(204).json({ error: "missing title or body" });

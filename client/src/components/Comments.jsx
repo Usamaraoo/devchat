@@ -17,13 +17,7 @@ export default function Comments(props) {
             <p className="font-medium text-sm">{userName}</p>
             <small className="text-xs text-gray-300">{time}</small>
           </Link>
-          <p>
-            {comment}
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate
-            dolorem hic deleniti earum minus. Consequatur facere, impedit vel
-            nihil ea odit atque tempore? Voluptatum nemo repellat accusamus
-            quaerat facere
-          </p>
+          <p>{comment}</p>
         </div>
       </div>
     </div>

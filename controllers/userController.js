@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password, avatarUrl } = req.body;
+    const { name, email, password } = req.body;
     const user = await UserModel.findOne({ email });
     if (user) {
       res.status(500).json({ error: "user with this email already exists" });
@@ -13,40 +13,11 @@ const registerUser = async (req, res) => {
       name,
       email,
       password,
-      avatarUrl,
-      avatar: "default",
     });
     const salt = await bcrypt.genSalt(10);
     newUser.password = await bcrypt.hash(password, salt);
-    await newUser.save();
-    const refreshToken = jwt.sign(
-      { name: foundUser.name, _id: foundUser._id, email: foundUser.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "2h" }
-    );
-    // Saving refreshToken with current user
-    newUser.refreshToken = refreshToken;
     newUser.save();
-    //  create access token
-    const accessToken = jwt.sign(
-      {
-        UserInfo: {
-          name: foundUser.name,
-          _id: foundUser._id,
-          email: foundUser.email,
-        },
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: "30s" }
-    );
-    // Creates Secure Cookie with refresh token
-    res.cookie("jwt", refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "None",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-    res.json({ foundUser: newUser, accessToken, user: true });
+    res.json('created');
   } catch (error) {
     res.status(500).json({ err: "something went wrong" });
   }

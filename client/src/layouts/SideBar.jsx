@@ -16,7 +16,7 @@ export default function SideBar() {
   };
   return (
     <div>
-      {!routesNotForSideBar.includes(location.pathname) && auth.user  && (
+      {!routesNotForSideBar.includes(location.pathname) && auth.user && (
         <div>
           <button
             data-drawer-target="default-sidebar"
@@ -130,7 +130,7 @@ export default function SideBar() {
                     <span className="flex-1 ml-3 whitespace-nowrap">Chat</span>
                   </div>
                 </li>
-                <Link to='/dashboard'>
+                <Link to="/dashboard">
                   <div
                     className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
                   >
@@ -187,11 +187,11 @@ export default function SideBar() {
             >
               <div className="flex justify-between">
                 <p className="font-medium self-center tracking-widest">
-                  DevUsama
+                  {auth?.userData?.name}
                 </p>
                 <img
                   className="rounded-full w-10 "
-                  src="https://static.vecteezy.com/system/resources/previews/004/607/806/non_2x/man-face-emotive-icon-smiling-bearded-male-character-in-yellow-flat-illustration-isolated-on-white-happy-human-psychological-portrait-positive-emotions-user-avatar-for-app-web-design-vector.jpg"
+                  src={auth.userData.avatarUrl}
                   alt="user"
                 />
               </div>

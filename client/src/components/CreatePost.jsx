@@ -1,5 +1,4 @@
 import {
-  grayDark,
   graylight,
   hoverTextOrange,
   orange,
@@ -8,7 +7,7 @@ import Modal from "./Modal";
 import useModal from "../hooks/useModal";
 import { useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-export default function CreatePost() {
+export default function CreatePost({setCurrentPost}) {
   const [openModal, changeModalState] = useModal();
   const [postText, setPostText] = useState("");
   const axiosPrivate = useAxiosPrivate();
@@ -22,6 +21,7 @@ export default function CreatePost() {
         });
         if (res.status === 200) {
           setPostText("");
+          setCurrentPost(res?.data?.body)
         }
         changeModalState();
       } else {
@@ -44,7 +44,7 @@ export default function CreatePost() {
           <form onSubmit={submitPost}>
             <textarea
               onChange={(e) => setPostText(e.target.value)}
-              className={`w-full  p-2 bg${grayDark}`}
+              className={`w-full  p-2 bg-gray-800`}
               name="post"
               id=""
               placeholder="Start writing..."

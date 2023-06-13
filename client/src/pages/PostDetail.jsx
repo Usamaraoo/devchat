@@ -5,27 +5,47 @@ import { defaultDevImg } from "../data/defaultData";
 import useAuth from "../hooks/useAuth";
 import Comments from "../components/Comments";
 import WriteComment from "../components/WriteComment";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 // import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import getTimeAgoString from "../utls/calculateTIme";
 
 export default function PostDetail() {
+  const axiosPrivate = useAxiosPrivate();
+  const [commentState, setCommentState] = useState(null);
+  const [currentComment, setCurrentComment ] = useState(null)
   const {
     auth: { userData },
   } = useAuth();
   const {
-    state: { body, postId },
+    state: { body, postId, time, userName, userImg },
   } = useLocation();
-  const time = "45m";
+  // updating comments state on new comment
+  const updateComments = (newComment) => {
+    setCommentState([...commentState, newComment]);
+  };
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await axiosPrivate.get(`/api/post-comment/${[postId]}`);
+        if (res.status === 200) {
+          setCommentState(res.data);
+        }
+      } catch (error) {}
+    };
+    getComments();
+  }, []);
   return (
     <div className="w-full mx-8">
       <div className={` h-fit bg${graylight}  px-4 py-5 my-5 rounded-sm  `}>
         <Link to={"/profile"} className="flex gap-2 mb-2">
           <img
             className="rounded-full w-14 "
-            src={userData.img ? userData.img : defaultDevImg}
+            src={userImg ? userImg : defaultDevImg}
             alt="user"
           />
           <div className=" flex text-xl gap-2 items-center">
-            <p>{userData.name}</p>
+            <p>{userName}</p>
             <small className="text-xs text-gray-300">{time}</small>
           </div>
         </Link>
@@ -95,21 +115,34 @@ export default function PostDetail() {
         </div>
       </div>
       {/* write comment */}
-      <WriteComment postId={postId} />
-      {/* comments  */}
+      <WriteComment postId={postId} setCurrentComment={setCurrentComment} />
+      {/* Post comments  */}
       <div>
-        <Comments
-          comment={"Thats exactly my what I think"}
-          userName={"dev"}
-          userImg={defaultDevImg}
-          time={"34m"}
-        />
-        <Comments
-          comment={"Thats exactly my what I think"}
-          userName={"dev"}
-          userImg={defaultDevImg}
-          time={"34m"}
-        />
+      {currentComment &&<Comments
+                  comment={currentComment}
+                  userName={userData?.name}
+                  userImg={userData?.avatarUrl}
+                  time={getTimeAgoString(new Date())}
+        />}
+        {commentState &&
+          commentState.map((singleComment) => {
+            const {
+              _id,
+              comment,
+              createdAt,
+              devId: { avatarUrl, name },
+            } = singleComment;
+            return (
+              <div key={_id}>
+                <Comments
+                  comment={comment}
+                  userName={name}
+                  userImg={avatarUrl}
+                  time={getTimeAgoString(new Date(createdAt))}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
