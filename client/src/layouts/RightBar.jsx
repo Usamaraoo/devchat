@@ -7,7 +7,7 @@ export default function RightBar() {
   const { auth } = useAuth();
   const location = useLocation();
   return (
-    <div>
+    <div className='fixed bottom-0 top-0 right-0'>
       {!routesNotForSideBar.includes(location.pathname) && auth.user && (
         <div>
           <button

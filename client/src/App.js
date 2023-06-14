@@ -12,7 +12,7 @@ import PresistLogin from "./components/PresistLogin";
 import Avatar from "./pages/Avatar";
 import SideBar from "./layouts/SideBar";
 import RightBar from "./layouts/RightBar";
-import Profile from './pages/Profile'
+import Profile from "./pages/Profile";
 import PostDetail from "./pages/PostDetail";
 
 function App() {
@@ -33,19 +33,21 @@ function App() {
         </Routes>
         {/* Protected Routes */}
         <div className=" flex justify-between">
-        <SideBar />
-          <Routes>
-            <Route element={<PresistLogin />}>
-              <Route element={<RequiredAuth />}>
-                <Route path="/" element={<Home />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/avatar" element={<Avatar />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/post/:slug" element={<PostDetail />} />
+          <SideBar />
+          <div className="m-auto w-2/4">
+            <Routes>
+              <Route element={<PresistLogin />}>
+                <Route element={<RequiredAuth />}>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/avatar" element={<Avatar />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/post/:slug" element={<PostDetail />} />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-          <RightBar/>
+            </Routes>
+            <RightBar />
+          </div>
         </div>
       </Router>
     </div>

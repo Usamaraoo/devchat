@@ -15,11 +15,11 @@ export default function SideBar() {
     navigate("/login");
   };
   return (
-    <div>
+    <div className='fixed bottom-0 top-0'>
       {!routesNotForSideBar.includes(location.pathname) && auth.user && (
-        <div>
+        <div >
           <button
-            data-drawer-target="default-sidebar"
+            data-drawer-target="default-sidebar "
             data-drawer-toggle="default-sidebar"
             aria-controls="default-sidebar"
             type="button"
