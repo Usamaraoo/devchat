@@ -14,6 +14,7 @@ import SideBar from "./layouts/SideBar";
 import RightBar from "./layouts/RightBar";
 import Profile from "./pages/Profile";
 import PostDetail from "./pages/PostDetail";
+import ChatPage from "./pages/ChatPage";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
                   <Route path="/avatar" element={<Avatar />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/post/:slug" element={<PostDetail />} />
+                  <Route path="/chat" element={<ChatPage />} />
                 </Route>
               </Route>
             </Routes>
