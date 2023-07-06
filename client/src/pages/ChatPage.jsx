@@ -5,11 +5,39 @@ import ChatHeader from "../components/chat/ChatHeader";
 import ChatSingleMessage from "../components/chat/ChatSingleMessage";
 import useAuth from "../hooks/useAuth";
 import { defaultDevImg } from "../data/defaultData";
+import { useEffect, useState } from "react";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export default function ChatPage() {
   const {
     auth: { userData },
   } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
+
+  const [convState, setConvState] = useState(null);
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    const getConversations = async () => {
+      try {
+        const res = await axiosPrivate.get("/api/conversation", {
+          signal: controller.signal,
+        });
+        if (res.status === 200) {
+          const posts = await res.data;
+          isMounted && setConvState(posts);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getConversations();
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
+console.log('conversations',convState)
   return (
     <div className=" w-full">
       <ChatHeader />

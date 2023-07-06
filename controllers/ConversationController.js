@@ -4,9 +4,10 @@ const ConversationModel = require("../models/Conversation");
 const createConversation = async (req, res) => {
   try {
     // const { _id } = req.user;
-    const { senderId, receiverId } = req.body;
+    const { senderId, receiver } = req.body;
     const newConversation = await ConversationModel.create({
-      members: [receiverId, senderId],
+      // members: [receiverId, senderId],
+      members: [{id:req.user._id,avatarUrl:req.user.avatarUrl,name:req.user.name},receiver],
     });
     res.json(newConversation);
   } catch (error) {
