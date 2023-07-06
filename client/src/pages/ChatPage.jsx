@@ -18,7 +18,8 @@ export default function ChatPage() {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    const getConversations = async () => {
+    // here we are only getting the user data which user have conservation
+    const getConversationsList = async () => {
       try {
         const res = await axiosPrivate.get("/api/conversation", {
           signal: controller.signal,
@@ -31,13 +32,36 @@ export default function ChatPage() {
         console.log(error);
       }
     };
-    getConversations();
+    getConversationsList();
     return () => {
       isMounted = false;
       controller.abort();
     };
   }, []);
-console.log('conversations',convState)
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    // here we create or get current conversation and its messages
+    const startConversation = async () => {
+      try {
+        const res = await axiosPrivate.post("/api/conversationsssssssssssss", {
+          signal: controller.signal,
+        },{receiver:{}});
+        if (res.status === 200) {
+          const posts = await res.data;
+          isMounted && setConvState(posts);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    startConversation();
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
   return (
     <div className=" w-full">
       <ChatHeader />

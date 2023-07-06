@@ -44,7 +44,7 @@ export default function CreatePost({setCurrentPost}) {
           <form onSubmit={submitPost}>
             <textarea
               onChange={(e) => setPostText(e.target.value)}
-              className={`w-full  p-2 bg-gray-800`}
+              className={`w-full  p-2 bg-gray-900`}
               name="post"
               id=""
               placeholder="Start writing..."
