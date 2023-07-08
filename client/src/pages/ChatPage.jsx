@@ -8,6 +8,7 @@ import { defaultDevImg } from "../data/defaultData";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from 'react-router-dom'
+import useConv from "../hooks/useConv";
 
 export default function ChatPage() {
   const { username } = useParams()
@@ -28,6 +29,7 @@ export default function ChatPage() {
         });
         if (res.status === 200) {
           const convo = await res.data;
+          // setConvListState([...convListState,convo])
           // isMounted && setConvListState(convo);
         }
       } catch (error) {

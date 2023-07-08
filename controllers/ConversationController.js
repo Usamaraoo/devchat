@@ -15,7 +15,7 @@ const createConversation = async (req, res) => {
       return u.name;
     });
     // find convo between these two users
-    const conv = await ConversationModel.find({
+    const conv = await ConversationModel.findOne({
       "members.name": { $all: usersName },
     });
     // if no convo create new one

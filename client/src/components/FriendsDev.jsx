@@ -30,7 +30,6 @@ export default function FriendsDev() {
       controller.abort();
     };
   }, []);
-  console.log("all devs", friendDevs);
   return (
     <div>
       {friendDevs &&
@@ -52,6 +51,7 @@ export default function FriendsDev() {
                   </p>
                 </Link>
                 <Link to={`/chat/${dev.name}`} title="Start a chat">
+
                   <BsFillChatDotsFill className="w-5 text-orange-300" />
                 </Link>
               </div>

@@ -1,11 +1,11 @@
 import React from "react";
-import { defaultDevImg } from "../../data/defaultData";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
+import useConv from "../../hooks/useConv";
 
 export default function UserChatList() {
+  const { convListState, setConvListState } = useConv();
   const axiosPrivate = useAxiosPrivate();
-  const [convListState, setConvListState] = useState(null);
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -15,10 +15,9 @@ export default function UserChatList() {
         const res = await axiosPrivate.get("/api/conversation", {
           signal: controller.signal,
         });
-        console.log('convo list',res.data)
         if (res.status === 200) {
-          const posts = await res.data;
-          isMounted && setConvListState(posts);
+          const conv = await res.data;
+          isMounted && setConvListState(conv);
         }
       } catch (error) {
         console.log(error);
@@ -36,47 +35,26 @@ export default function UserChatList() {
       <hr />
       {/* list */}
       <div className="">
-        {convListState && convListState.map((singleConv)=>{
-          return(
-          <div key={singleConv._id} className="rounded-md bg-gray-700 my-2 w-full py-2 px-8 items-center ">
-          <div className="flex justify-between">
-            <p className="font-medium self-center tracking-widest">
-            {singleConv.members[0].name}
-            </p>
-            <img
-              className="rounded-full w-10 "
-              src={singleConv.members[0].avatarUrl}
-              alt="user"
-            />
-          </div>
-        </div>
-          )
-        })}
-        
-        {/* <div className="rounded-md bg-gray-700 my-2 w-full py-2 px-8 items-center ">
-          <div className="flex justify-between">
-            <p className="font-medium self-center tracking-widest">
-              {"UserName"}
-            </p>
-            <img
-              className="rounded-full w-10 "
-              src={defaultDevImg}
-              alt="user"
-            />
-          </div>
-        </div>
-        <div className="rounded-md bg-gray-700 my-2 w-full py-2 px-8 items-center ">
-          <div className="flex justify-between">
-            <p className="font-medium self-center tracking-widest">
-              {"UserName"}
-            </p>
-            <img
-              className="rounded-full w-10 "
-              src={defaultDevImg}
-              alt="user"
-            />
-          </div>
-        </div> */}
+        {convListState.length > 0 &&
+          convListState.map((singleConv) => {
+            return (
+              <div
+                key={singleConv._id}
+                className="rounded-md bg-gray-700 my-2 w-full py-2 px-8 items-center "
+              >
+                <div className="flex justify-between">
+                  <p className="font-medium self-center tracking-widest">
+                    {singleConv.members[0].name}
+                  </p>
+                  <img
+                    className="rounded-full w-10 "
+                    src={singleConv.members[0].avatarUrl}
+                    alt="user"
+                  />
+                </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
