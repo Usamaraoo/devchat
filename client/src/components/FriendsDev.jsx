@@ -17,8 +17,8 @@ export default function FriendsDev() {
           signal: controller.signal,
         });
         if (res.status === 200) {
-          const posts = await res.data;
-          isMounted && setFriendDevs(posts);
+          const friends = await res.data;
+          isMounted && setFriendDevs(friends);
         }
       } catch (error) {
         console.log(error);
@@ -51,7 +51,7 @@ export default function FriendsDev() {
                     {dev.name}
                   </p>
                 </Link>
-                <Link to='/chat' title="Start a chat">
+                <Link to={`/chat/${dev.name}`} title="Start a chat">
                   <BsFillChatDotsFill className="w-5 text-orange-300" />
                 </Link>
               </div>

@@ -44,7 +44,7 @@ export default function RightBar() {
               className={`h-full px-8 py-4 overflow-y-auto bg-gray-50 bg${graylight}`}
             >
               <ul className="space-y-2 font-medium">
-                {location.pathname === "/chat" ? (
+                {location.pathname.includes("chat") ? (
                   <div>
                     <UserChatList />
                   </div>

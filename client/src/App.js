@@ -44,7 +44,7 @@ function App() {
                   <Route path="/avatar" element={<Avatar />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/post/:slug" element={<PostDetail />} />
-                  <Route path="/chat" element={<ChatPage />} />
+                  <Route path="/chat/:username" element={<ChatPage />} />
                 </Route>
               </Route>
             </Routes>

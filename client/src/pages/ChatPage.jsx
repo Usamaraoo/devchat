@@ -7,37 +7,39 @@ import useAuth from "../hooks/useAuth";
 import { defaultDevImg } from "../data/defaultData";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useParams } from 'react-router-dom'
 
 export default function ChatPage() {
+  const { username } = useParams()
   const {
     auth: { userData },
   } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
   const [convState, setConvState] = useState(null);
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-    // here we are only getting the user data which user have conservation
-    const getConversationsList = async () => {
-      try {
-        const res = await axiosPrivate.get("/api/conversation", {
-          signal: controller.signal,
-        });
-        if (res.status === 200) {
-          const posts = await res.data;
-          isMounted && setConvState(posts);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getConversationsList();
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, []);
+  // useEffect(() => {
+  //   let isMounted = true;
+  //   const controller = new AbortController();
+  //   // here we are only getting the user data which user have conservation
+  //   const getConversationsList = async () => {
+  //     try {
+  //       const res = await axiosPrivate.get("/api/conversation", {
+  //         signal: controller.signal,
+  //       });
+  //       if (res.status === 200) {
+  //         const posts = await res.data;
+  //         isMounted && setConvState(posts);
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   getConversationsList();
+  //   return () => {
+  //     isMounted = false;
+  //     controller.abort();
+  //   };
+  // }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -45,9 +47,9 @@ export default function ChatPage() {
     // here we create or get current conversation and its messages
     const startConversation = async () => {
       try {
-        const res = await axiosPrivate.post("/api/conversationsssssssssssss", {
+        const res = await axiosPrivate.post("/api/conversation",{receiver:username}, {
           signal: controller.signal,
-        },{receiver:{}});
+        });
         if (res.status === 200) {
           const posts = await res.data;
           isMounted && setConvState(posts);
@@ -64,7 +66,7 @@ export default function ChatPage() {
   }, []);
   return (
     <div className=" w-full">
-      <ChatHeader />
+      <ChatHeader username={username} />
       {/* messages */}
       <div>
         <ChatSingleMessage
