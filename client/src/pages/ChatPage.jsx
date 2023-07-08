@@ -1,5 +1,4 @@
 import React from "react";
-import { orange } from "../data/StyleGuide";
 import MessageForm from "../components/chat/MessageForm";
 import ChatHeader from "../components/chat/ChatHeader";
 import ChatSingleMessage from "../components/chat/ChatSingleMessage";
@@ -73,14 +72,14 @@ export default function ChatPage() {
           const {_id,sender:senderID,text} = msg
           return(<div key={_id}>
              <ChatSingleMessage
-          img={true ? currentConv.members[0].avatarUrl : defaultDevImg}
+          img={userData._id ===senderID ? userData.avatarUrl:currentConv.members[0].avatarUrl }
           time={`2:30pm`}
           content={text}
-          current={true}
+          current={userData._id ===senderID}
         />
           </div>)
         }):'Loading....'}
-        <ChatSingleMessage
+        {/* <ChatSingleMessage
           img={true ? userData.avatarUrl : defaultDevImg}
           time={`2:30pm`}
           content={"Hy This is test message"}
@@ -91,7 +90,7 @@ export default function ChatPage() {
           time={`2:30pm`}
           content={"Hy how are you"}
           current={false}
-        />
+        /> */}
       </div>
       <MessageForm />
     </div>
