@@ -4,9 +4,9 @@ const ConversationContext = createContext({});
 
 export const ConversationProiver = ({ children }) => {
   const [convListState, setConvListState] = useState([]);
-  useEffect(()=>{
-    console.log('from provider',convListState);
-  },[convListState])
+  // useEffect(()=>{
+  //   console.log('from provider',convListState);
+  // },[convListState])
   //on starting chat with any user this func will check it conv btw both user already
   //exist if not then add to list otherwise ignore
   // const checkAndUpdate = (user) => {

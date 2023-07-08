@@ -19,7 +19,7 @@ const createConversation = async (req, res) => {
       "members.name": { $all: usersName },
     });
     // if no convo create new one
-    if (conv.length === 0) {
+    if (!conv) {
       const newConversation = await ConversationModel.create({
         members: convoUsers,
       });
@@ -42,7 +42,6 @@ const getConversation = async (req, res) => {
     // here we are filtering only the other user in conversation not the current user
     const filteredConv = conversations.map((conv)=>{
       const mem = conv.members.filter((member)=> member.name !== req.user.name)
-      console.log(mem)
       conv.members = mem
       return conv
     })
