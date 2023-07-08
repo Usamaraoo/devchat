@@ -7,17 +7,17 @@ import useAuth from "../hooks/useAuth";
 import { defaultDevImg } from "../data/defaultData";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useParams } from 'react-router-dom'
+import { useParams } from "react-router-dom";
 import useConv from "../hooks/useConv";
 
 export default function ChatPage() {
   const { currentConv, setCurrentConv } = useConv();
-  const { username } = useParams()
+  const { username } = useParams();
   const {
     auth: { userData },
   } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-
+  const [messages, setMessages] = useState(null)
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -25,12 +25,16 @@ export default function ChatPage() {
     const startConversation = async () => {
       try {
         // will create a new conversation if exit get it without creating
-        const res = await axiosPrivate.post("/api/conversation",{receiver:username}, {
-          signal: controller.signal,
-        });
+        const res = await axiosPrivate.post(
+          "/api/conversation",
+          { receiver: username },
+          {
+            signal: controller.signal,
+          }
+        );
         if (res.status === 200) {
           const convo = await res.data;
-          setCurrentConv(convo)
+          setCurrentConv(convo);
           // setConvListState([...convListState,convo])
           // isMounted && setConvListState(convo);
         }
@@ -44,11 +48,38 @@ export default function ChatPage() {
       controller.abort();
     };
   }, []);
+  useEffect(() => {
+    const getConversationMessage = async () => {
+      try {
+        const res = await axiosPrivate.get("/api/message/" + currentConv._id);
+        setMessages(res.data)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    currentConv && getConversationMessage();
+  }, [currentConv]);
   return (
     <div className=" w-full">
-      {currentConv && <ChatHeader username={currentConv.members[0].name} avatar={currentConv.members[0].avatarUrl} />}
+      {currentConv && (
+        <ChatHeader
+          username={currentConv.members[0].name}
+          avatar={currentConv.members[0].avatarUrl}
+        />
+      )}
       {/* messages */}
       <div>
+        {messages ? messages.map((msg)=>{
+          const {_id,sender:senderID,text} = msg
+          return(<div key={_id}>
+             <ChatSingleMessage
+          img={true ? currentConv.members[0].avatarUrl : defaultDevImg}
+          time={`2:30pm`}
+          content={text}
+          current={true}
+        />
+          </div>)
+        }):'Loading....'}
         <ChatSingleMessage
           img={true ? userData.avatarUrl : defaultDevImg}
           time={`2:30pm`}
@@ -60,34 +91,6 @@ export default function ChatPage() {
           time={`2:30pm`}
           content={"Hy how are you"}
           current={false}
-        />
-        <ChatSingleMessage
-          img={true ? userData.avatarUrl : defaultDevImg}
-          time={`4:00pm`}
-          content={"Did you finish the project already"}
-          current={true}
-        />
-        <ChatSingleMessage
-          img={false ? userData.avatarUrl : defaultDevImg}
-          time={`2:30pm`}
-          content={`numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-          optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-          obcaecati tenetur iure eius earum ut moles`}
-          current={false}
-        />
-        <ChatSingleMessage
-          img={true ? userData.avatarUrl : defaultDevImg}
-          time={`2:30pm`}
-          content={"Hy how are you"}
-          current={true}
-        />
-        <ChatSingleMessage
-          img={true ? userData.avatarUrl : defaultDevImg}
-          time={`2:30pm`}
-          content={`numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-          optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
-          obcaecati tenetur iure eius earum ut moles`}
-          current={true}
         />
       </div>
       <MessageForm />

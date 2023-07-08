@@ -23,8 +23,16 @@ const createConversation = async (req, res) => {
       const newConversation = await ConversationModel.create({
         members: convoUsers,
       });
+      const mem = newConversation.members.filter(
+        (member) => member.name !== req.user.name
+      );
+      newConversation.members = mem;
       res.json(newConversation);
     } else {
+      const mem = conv.members.filter(
+        (member) => member.name !== req.user.name
+      );
+      conv.members = mem;
       res.json(conv);
     }
   } catch (error) {
@@ -40,11 +48,13 @@ const getConversation = async (req, res) => {
       "members.name": { $all: [name] },
     });
     // here we are filtering only the other user in conversation not the current user
-    const filteredConv = conversations.map((conv)=>{
-      const mem = conv.members.filter((member)=> member.name !== req.user.name)
-      conv.members = mem
-      return conv
-    })
+    const filteredConv = conversations.map((conv) => {
+      const mem = conv.members.filter(
+        (member) => member.name !== req.user.name
+      );
+      conv.members = mem;
+      return conv;
+    });
     res.json(filteredConv);
   } catch (error) {
     console.log(error);
