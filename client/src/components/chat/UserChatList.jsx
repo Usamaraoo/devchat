@@ -2,11 +2,12 @@ import React from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 import useConv from "../../hooks/useConv";
+import { Link } from "react-router-dom";
 
 export default function UserChatList() {
   const { convListState, setConvListState } = useConv();
   const axiosPrivate = useAxiosPrivate();
-  let currentUser =  window.location.pathname.split('/').slice(-1)[0]
+  let currentUser = window.location.pathname.split("/").slice(-1)[0];
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -41,18 +42,27 @@ export default function UserChatList() {
             return (
               <div
                 key={singleConv._id}
-                className={`${currentUser === singleConv.members[0].name ? ' border-2 bg-gray-400 font-extrabold':'bg-gray-700'} rounded-md  my-2 w-full py-2 px-8 items-center `}
+                className={`${
+                  currentUser === singleConv.members[0].name
+                    ? " border-2 bg-gray-400 font-extrabold"
+                    : "bg-gray-700"
+                } rounded-md  my-2 w-full py-2 px-8 items-center `}
               >
-                <div className="flex justify-between">
-                  <p className="font-medium self-center tracking-widest">
-                    {singleConv.members[0].name}
-                  </p>
-                  <img
-                    className={`${currentUser === singleConv.members[0].name && ' border-orange-400 border-2'} rounded-full w-10 `}
-                    src={singleConv.members[0].avatarUrl}
-                    alt="user"
-                  />
-                </div>
+                <Link to={`chat/${singleConv.members[0].name}`}>
+                  <div className="flex justify-between">
+                    <p className="font-medium self-center tracking-widest">
+                      {singleConv.members[0].name}
+                    </p>
+                    <img
+                      className={`${
+                        currentUser === singleConv.members[0].name &&
+                        " border-orange-400 border-2"
+                      } rounded-full w-10 `}
+                      src={singleConv.members[0].avatarUrl}
+                      alt="user"
+                    />
+                  </div>
+                </Link>
               </div>
             );
           })}
