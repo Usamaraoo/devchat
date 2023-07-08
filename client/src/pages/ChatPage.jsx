@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom'
 import useConv from "../hooks/useConv";
 
 export default function ChatPage() {
+  const { currentConv, setCurrentConv } = useConv();
   const { username } = useParams()
   const {
     auth: { userData },
@@ -29,6 +30,7 @@ export default function ChatPage() {
         });
         if (res.status === 200) {
           const convo = await res.data;
+          setCurrentConv(convo)
           // setConvListState([...convListState,convo])
           // isMounted && setConvListState(convo);
         }
@@ -44,7 +46,7 @@ export default function ChatPage() {
   }, []);
   return (
     <div className=" w-full">
-      <ChatHeader username={username} />
+      {currentConv && <ChatHeader username={currentConv.members[0].name} avatar={currentConv.members[0].avatarUrl} />}
       {/* messages */}
       <div>
         <ChatSingleMessage

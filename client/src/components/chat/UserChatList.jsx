@@ -5,7 +5,7 @@ import useConv from "../../hooks/useConv";
 import { Link } from "react-router-dom";
 
 export default function UserChatList() {
-  const { convListState, setConvListState } = useConv();
+  const { convListState, setConvListState,setCurrentConv } = useConv();
   const axiosPrivate = useAxiosPrivate();
   let currentUser = window.location.pathname.split("/").slice(-1)[0];
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function UserChatList() {
                     : "bg-gray-700"
                 } rounded-md  my-2 w-full py-2 px-8 items-center `}
               >
-                <Link to={`chat/${singleConv.members[0].name}`}>
+                <Link to={`chat/${singleConv.members[0].name}`} onClick={()=>setCurrentConv(singleConv)}>
                   <div className="flex justify-between">
                     <p className="font-medium self-center tracking-widest">
                       {singleConv.members[0].name}

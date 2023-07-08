@@ -4,6 +4,7 @@ const ConversationContext = createContext({});
 
 export const ConversationProiver = ({ children }) => {
   const [convListState, setConvListState] = useState([]);
+  const [currentConv, setCurrentConv] = useState(null);
   // useEffect(()=>{
   //   console.log('from provider',convListState);
   // },[convListState])
@@ -16,7 +17,7 @@ export const ConversationProiver = ({ children }) => {
   //   console.log('convo list',conv);
   // };
   return (
-    <ConversationContext.Provider value={{ convListState, setConvListState }}>
+    <ConversationContext.Provider value={{ convListState, setConvListState ,currentConv, setCurrentConv}}>
       {children}
     </ConversationContext.Provider>
   );
