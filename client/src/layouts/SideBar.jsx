@@ -15,7 +15,7 @@ export default function SideBar() {
     navigate("/login");
   };
   return (
-    <div className='fixed bottom-0 top-0'>
+    <div className='fixed bottom-0 top-0 '>
       {!routesNotForSideBar.includes(location.pathname) && auth.user && (
         <div >
           <button
@@ -61,7 +61,7 @@ export default function SideBar() {
                 <li>
                   <Link
                     to="/"
-                    className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
+                    className={`flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 text-white  ${hoverTextOrange}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -78,13 +78,13 @@ export default function SideBar() {
                       />
                     </svg>
 
-                    <span className="flex-1 ml-3 whitespace-nowrap">Home</span>
+                    <span className="flex-1 ml-3 whitespace-nowrap ">Home</span>
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/avatar"
-                    className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
+                    className={`flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +111,7 @@ export default function SideBar() {
                 </li>
                 <Link to='/chat'>
                   <div
-                    className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
+                    className={`flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -132,11 +132,11 @@ export default function SideBar() {
                 </Link>
                 <Link to="/dashboard">
                   <div
-                    className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
+                    className={`flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
                   >
                     <svg
                       aria-hidden="true"
-                      className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                      className="flex-shrink-0 w-6 h-6 text-white transition duration-75 dark:text-gray-400 group-hover: dark:group-hover:text-white"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -156,7 +156,7 @@ export default function SideBar() {
                 <li>
                   <button
                     onClick={singout}
-                    className={` flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
+                    className={` flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

@@ -35,11 +35,18 @@ const createConversation = async (req, res) => {
 // get conversation of a current user
 const getConversation = async (req, res) => {
   try {
-    const { _id } = req.user;
+    const { name } = req.user;
     const conversations = await ConversationModel.find({
-      members: { $in: [_id] },
+      "members.name": { $all: [name] },
     });
-    res.json(conversations);
+    // here we are filtering only the other user in conversation not the current user
+    const filteredConv = conversations.map((conv)=>{
+      const mem = conv.members.filter((member)=> member.name !== req.user.name)
+      console.log(mem)
+      conv.members = mem
+      return conv
+    })
+    res.json(filteredConv);
   } catch (error) {
     console.log(error);
   }

@@ -16,43 +16,19 @@ export default function ChatPage() {
   } = useAuth();
   const axiosPrivate = useAxiosPrivate();
 
-  const [convState, setConvState] = useState(null);
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   const controller = new AbortController();
-  //   // here we are only getting the user data which user have conservation
-  //   const getConversationsList = async () => {
-  //     try {
-  //       const res = await axiosPrivate.get("/api/conversation", {
-  //         signal: controller.signal,
-  //       });
-  //       if (res.status === 200) {
-  //         const posts = await res.data;
-  //         isMounted && setConvState(posts);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getConversationsList();
-  //   return () => {
-  //     isMounted = false;
-  //     controller.abort();
-  //   };
-  // }, []);
-
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
     // here we create or get current conversation and its messages
     const startConversation = async () => {
       try {
+        // will create a new conversation if exit get it without creating
         const res = await axiosPrivate.post("/api/conversation",{receiver:username}, {
           signal: controller.signal,
         });
         if (res.status === 200) {
-          const posts = await res.data;
-          isMounted && setConvState(posts);
+          const convo = await res.data;
+          // isMounted && setConvListState(convo);
         }
       } catch (error) {
         console.log(error);
