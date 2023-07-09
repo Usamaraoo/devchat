@@ -1,18 +1,23 @@
 import React from "react";
 import MessageForm from "../components/chat/MessageForm";
 import ChatHeader from "../components/chat/ChatHeader";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
 import useConv from "../hooks/useConv";
 import MessageList from "../components/chat/MessageList";
+import { io } from "socket.io-client";
+import useAuth from "../hooks/useAuth";
+
 export default function ChatPage() {
   const { currentConv, setCurrentConv } = useConv();
   const { username } = useParams();
- 
+  const {
+    auth: { userData },
+  } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [messages, setMessages] = useState(null);
-
+  const socket = useRef();
   const updateMessageList = (msgContent) => {
     setMessages([...messages, msgContent]);
   };
@@ -58,6 +63,18 @@ export default function ChatPage() {
     };
     currentConv && getConversationMessage();
   }, [currentConv]);
+
+  console.log("socket work");
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+  }, []);
+  useEffect(() => {
+    socket.current.emit("addUser", userData._id);
+    socket.current.on("getUsers", (users) => {
+      console.log("users", users);
+    });
+  }, [userData]);
+ 
 
   return (
     <div className=" w-full">
