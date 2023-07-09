@@ -34,7 +34,7 @@ export default function MessageForm({updateMessageList}) {
     }
   };
   return (
-    <form onSubmit={sendMessage} className="absolute bottom-4  w-2/4 left-50 ">
+    <form onSubmit={sendMessage} className="fixed bottom-4  w-2/4 left-50 ">
       <div className="relative">
         <input
           value={msgState}

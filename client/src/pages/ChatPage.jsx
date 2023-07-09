@@ -1,21 +1,18 @@
 import React from "react";
 import MessageForm from "../components/chat/MessageForm";
 import ChatHeader from "../components/chat/ChatHeader";
-import ChatSingleMessage from "../components/chat/ChatSingleMessage";
-import useAuth from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
 import useConv from "../hooks/useConv";
-
+import MessageList from "../components/chat/MessageList";
 export default function ChatPage() {
   const { currentConv, setCurrentConv } = useConv();
   const { username } = useParams();
-  const {
-    auth: { userData },
-  } = useAuth();
+ 
   const axiosPrivate = useAxiosPrivate();
   const [messages, setMessages] = useState(null);
+
   const updateMessageList = (msgContent) => {
     setMessages([...messages, msgContent]);
   };
@@ -61,6 +58,7 @@ export default function ChatPage() {
     };
     currentConv && getConversationMessage();
   }, [currentConv]);
+
   return (
     <div className=" w-full">
       {currentConv && (
@@ -70,27 +68,7 @@ export default function ChatPage() {
         />
       )}
       {/* messages */}
-      <div>
-        {messages
-          ? messages.map((msg) => {
-              const { _id, sender: senderID, text } = msg;
-              return (
-                <div key={_id}>
-                  <ChatSingleMessage
-                    img={
-                      userData._id === senderID
-                        ? userData.avatarUrl
-                        : currentConv.members[0].avatarUrl
-                    }
-                    time={`2:30pm`}
-                    content={text}
-                    current={userData._id === senderID}
-                  />
-                </div>
-              );
-            })
-          : "Loading...."}
-      </div>
+      <MessageList messages={messages} />
       <MessageForm updateMessageList={updateMessageList} />
     </div>
   );
