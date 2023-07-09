@@ -3,7 +3,6 @@ import MessageForm from "../components/chat/MessageForm";
 import ChatHeader from "../components/chat/ChatHeader";
 import ChatSingleMessage from "../components/chat/ChatSingleMessage";
 import useAuth from "../hooks/useAuth";
-import { defaultDevImg } from "../data/defaultData";
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useParams } from "react-router-dom";
@@ -16,11 +15,14 @@ export default function ChatPage() {
     auth: { userData },
   } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [messages, setMessages] = useState(null)
+  const [messages, setMessages] = useState(null);
+  const updateMessageList = (msgContent) => {
+    setMessages([...messages, msgContent]);
+  };
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    // here we create or get current conversation and its messages
+    // here we create or get current conversation
     const startConversation = async () => {
       try {
         // will create a new conversation if exit get it without creating
@@ -48,10 +50,11 @@ export default function ChatPage() {
     };
   }, []);
   useEffect(() => {
+    // getting messages for current conversation
     const getConversationMessage = async () => {
       try {
         const res = await axiosPrivate.get("/api/message/" + currentConv._id);
-        setMessages(res.data)
+        setMessages(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -68,31 +71,27 @@ export default function ChatPage() {
       )}
       {/* messages */}
       <div>
-        {messages ? messages.map((msg)=>{
-          const {_id,sender:senderID,text} = msg
-          return(<div key={_id}>
-             <ChatSingleMessage
-          img={userData._id ===senderID ? userData.avatarUrl:currentConv.members[0].avatarUrl }
-          time={`2:30pm`}
-          content={text}
-          current={userData._id ===senderID}
-        />
-          </div>)
-        }):'Loading....'}
-        {/* <ChatSingleMessage
-          img={true ? userData.avatarUrl : defaultDevImg}
-          time={`2:30pm`}
-          content={"Hy This is test message"}
-          current={true}
-        />
-        <ChatSingleMessage
-          img={false ? userData.avatarUrl : defaultDevImg}
-          time={`2:30pm`}
-          content={"Hy how are you"}
-          current={false}
-        /> */}
+        {messages
+          ? messages.map((msg) => {
+              const { _id, sender: senderID, text } = msg;
+              return (
+                <div key={_id}>
+                  <ChatSingleMessage
+                    img={
+                      userData._id === senderID
+                        ? userData.avatarUrl
+                        : currentConv.members[0].avatarUrl
+                    }
+                    time={`2:30pm`}
+                    content={text}
+                    current={userData._id === senderID}
+                  />
+                </div>
+              );
+            })
+          : "Loading...."}
       </div>
-      <MessageForm />
+      <MessageForm updateMessageList={updateMessageList} />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
 import useConv from "../../hooks/useConv";
 
-export default function MessageForm() {
+export default function MessageForm({updateMessageList}) {
   const [msgState, setMsgState] = useState("");
   const { currentConv } = useConv();
   const {
@@ -23,6 +23,8 @@ export default function MessageForm() {
         });
         if (res.status === 200) {
           setMsgState("");
+          // on success updating conv messages list
+          updateMessageList(res.data)
         }
       } else {
         alert("Post lenght should be more than 10 words");
