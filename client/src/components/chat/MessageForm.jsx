@@ -5,7 +5,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
 import useConv from "../../hooks/useConv";
 
-export default function MessageForm({updateMessageList}) {
+export default function MessageForm({updateMessageList,sendMessageSocket}) {
   const [msgState, setMsgState] = useState("");
   const { currentConv } = useConv();
   const {
@@ -22,6 +22,7 @@ export default function MessageForm({updateMessageList}) {
           conversationId: currentConv._id,
         });
         if (res.status === 200) {
+          sendMessageSocket(msgState)
           setMsgState("");
           // on success updating conv messages list
           updateMessageList(res.data)

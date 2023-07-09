@@ -17,9 +17,18 @@ export default function ChatPage() {
   } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [messages, setMessages] = useState(null);
+  const [arrivalMsg, setArrivalMsg] = useState(null);
   const socket = useRef();
   const updateMessageList = (msgContent) => {
     setMessages([...messages, msgContent]);
+  };
+
+  const sendMessageSocket = (text) => {
+    socket.current.emit("sendMessage", {
+      senderId: userData._id,
+      receiverId: currentConv.members[0]._id,
+      text,
+    });
   };
   useEffect(() => {
     let isMounted = true;
@@ -64,17 +73,33 @@ export default function ChatPage() {
     currentConv && getConversationMessage();
   }, [currentConv]);
 
-  console.log("socket work");
+  // establish connection
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
+    // get new message
+    socket.current?.on("getMessage", (data) => {
+      console.log('new message',data.text)
+      setArrivalMsg({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
   }, []);
+  useEffect(() => {
+    // arrivalMsg &&
+    //   currentConv.members[0]._id === arrivalMsg.sender &&
+    //   setMessages((prev) => [...prev, arrivalMsg]);
+    arrivalMsg && setMessages((prev) => [...prev, arrivalMsg]);
+    console.log('new meesage arrived',arrivalMsg)
+  }, [arrivalMsg]);
+  // online user
   useEffect(() => {
     socket.current.emit("addUser", userData._id);
     socket.current.on("getUsers", (users) => {
       console.log("users", users);
     });
-  }, [userData]);
- 
+  }, [userData, currentConv]);
 
   return (
     <div className=" w-full">
@@ -86,7 +111,10 @@ export default function ChatPage() {
       )}
       {/* messages */}
       <MessageList messages={messages} />
-      <MessageForm updateMessageList={updateMessageList} />
+      <MessageForm
+        updateMessageList={updateMessageList}
+        sendMessageSocket={sendMessageSocket}
+      />
     </div>
   );
 }
