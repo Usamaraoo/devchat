@@ -3,7 +3,7 @@ import CreatePost from "../components/CreatePost";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState, useEffect } from "react";
 import useAuth from "../hooks/useAuth";
-import { defaultDevImg } from "../data/defaultData";
+
 export default function Home() {
   const axiosPrivate = useAxiosPrivate();
   const {

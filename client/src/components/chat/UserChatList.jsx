@@ -3,6 +3,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 import useConv from "../../hooks/useConv";
 import { Link } from "react-router-dom";
+import { orange,gray400 } from "../../data/StyleGuide";
 
 export default function UserChatList() {
   const { convListState, setConvListState,setCurrentConv } = useConv();
@@ -44,7 +45,7 @@ export default function UserChatList() {
                 key={singleConv._id}
                 className={`${
                   currentUser === singleConv.members[0].name
-                    ? " border-2 bg-gray-400 font-extrabold"
+                    ? `border-2 border${orange} bg${gray400} font-extrabold`
                     : "bg-gray-700"
                 } rounded-md  my-2 w-full py-2 px-8 items-center `}
               >
