@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import PostDetail from "./pages/PostDetail";
 
 function App() {
+  
   return (
     <div className="text-white   ">
       <Router>
