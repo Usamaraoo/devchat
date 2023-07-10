@@ -3,12 +3,13 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 import useConv from "../../hooks/useConv";
 import { Link } from "react-router-dom";
-import { orange,gray400 } from "../../data/StyleGuide";
+import { orange, gray400 } from "../../data/StyleGuide";
 
 export default function UserChatList() {
-  const { convListState, setConvListState,setCurrentConv } = useConv();
+  const { convListState, setConvListState, setCurrentConv,onlineFriends } = useConv();
   const axiosPrivate = useAxiosPrivate();
   let currentUser = window.location.pathname.split("/").slice(-1)[0];
+  
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -32,6 +33,7 @@ export default function UserChatList() {
       controller.abort();
     };
   }, []);
+  console.log('online friends',onlineFriends)
   return (
     <div>
       <h2 className="text-2xl mb-2">Chat</h2>
@@ -43,22 +45,23 @@ export default function UserChatList() {
             return (
               <div
                 key={singleConv._id}
-                className={`${
-                  currentUser === singleConv.members[0].name
-                    ? `border-2 border${orange} bg${gray400} font-extrabold`
-                    : "bg-gray-700"
-                } rounded-md  my-2 w-full py-2 px-8 items-center `}
+                className={`${currentUser === singleConv.members[0].name
+                  ? `border-2 border${orange} bg${gray400} font-extrabold`
+                  : "bg-gray-700"
+                  } rounded-md  my-2 w-full py-2 px-8 items-center `}
               >
-                <Link to={`chat/${singleConv.members[0].name}`} onClick={()=>setCurrentConv(singleConv)}>
+                <Link to={`chat/${singleConv.members[0].name}`} onClick={() => setCurrentConv(singleConv)}>
                   <div className="flex justify-between">
-                    <p className="font-medium self-center tracking-widest">
-                      {singleConv.members[0].name}
-                    </p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium self-center tracking-widest">
+                        {singleConv.members[0].name}
+                      </p>
+                      <div className={`${onlineFriends?.includes(singleConv.members[0]._id) ? 'bg-green-400' : 'bg-gray-500'} h-2 w-2 rounded-full`}></div>
+                    </div>
                     <img
-                      className={`${
-                        currentUser === singleConv.members[0].name &&
+                      className={`${currentUser === singleConv.members[0].name &&
                         " border-orange-400 border-2"
-                      } rounded-full w-10 `}
+                        } rounded-full w-10 `}
                       src={singleConv.members[0].avatarUrl}
                       alt="user"
                     />

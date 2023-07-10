@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 import useAuth from "../hooks/useAuth";
 
 export default function ChatPage() {
-  const { currentConv, setCurrentConv } = useConv();
+  const { currentConv, setCurrentConv,onlineFriends, setOnlineFriends } = useConv();
   const { username } = useParams();
   const {
     auth: { userData },
@@ -78,7 +78,6 @@ export default function ChatPage() {
     socket.current = io("ws://localhost:8900");
     // get new message
     socket.current?.on("getMessage", (data) => {
-      console.log('new message',data.text)
       setArrivalMsg({
         sender: data.senderId,
         text: data.text,
@@ -95,7 +94,7 @@ export default function ChatPage() {
   useEffect(() => {
     socket.current.emit("addUser", userData._id);
     socket.current.on("getUsers", (users) => {
-      console.log("users", users);
+      setOnlineFriends(users.map((user)=> user.userId))
     });
   }, [userData, currentConv]);
 
