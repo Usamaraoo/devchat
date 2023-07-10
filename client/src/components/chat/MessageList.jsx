@@ -17,7 +17,7 @@ export default function MessageList({ messages }) {
 
   return (
     <div
-      className="overflow-y-auto mt-24 overflow-hidden pr-3"
+      className="overflow-y-auto mt-24 overflow-hidden pr-3 pb-4"
       id="style-4"
       style={{ height: "78vh" }}
     >
