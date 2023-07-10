@@ -87,11 +87,9 @@ export default function ChatPage() {
     });
   }, []);
   useEffect(() => {
-    // arrivalMsg &&
-    //   currentConv.members[0]._id === arrivalMsg.sender &&
-    //   setMessages((prev) => [...prev, arrivalMsg]);
-    arrivalMsg && setMessages((prev) => [...prev, arrivalMsg]);
-    console.log('new meesage arrived',arrivalMsg)
+    arrivalMsg &&
+      currentConv.members[0]._id === arrivalMsg.sender &&
+      setMessages((prev) => [...prev, arrivalMsg]);
   }, [arrivalMsg]);
   // online user
   useEffect(() => {
