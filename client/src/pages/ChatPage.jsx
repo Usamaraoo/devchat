@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 import useAuth from "../hooks/useAuth";
 
 export default function ChatPage() {
-  const { currentConv, setCurrentConv,onlineFriends, setOnlineFriends } = useConv();
+  const { currentConv, setCurrentConv, setOnlineFriends } = useConv();
   const { username } = useParams();
   const {
     auth: { userData },

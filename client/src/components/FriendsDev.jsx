@@ -4,8 +4,11 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import useConv from "../hooks/useConv";
 
 export default function FriendsDev() {
+  const { onlineFriends } = useConv();
+
   const axiosPrivate = useAxiosPrivate();
   const [friendDevs, setFriendDevs] = useState(null);
   useEffect(() => {
@@ -40,7 +43,7 @@ export default function FriendsDev() {
               className="rounded-md bg-gray-700 my-2 w-full py-2 px-8 items-center "
             >
               <div className="flex justify-between items-center">
-                <Link className="flex">
+                <Link className="flex items-center">
                   <img
                     className="rounded-full w-8  "
                     src={dev.avatarUrl}
@@ -49,6 +52,7 @@ export default function FriendsDev() {
                   <p className="font-medium ml-2 self-center tracking-widest">
                     {dev.name}
                   </p>
+                  <div className={`${onlineFriends?.includes(dev._id) ? 'bg-green-400' : 'bg-gray-500'} ml-1 h-2 w-2 rounded-full`}></div>
                 </Link>
                 <Link to={`/chat/${dev.name}`} title="Start a chat">
 

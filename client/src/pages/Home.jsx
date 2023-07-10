@@ -1,16 +1,21 @@
 import PostCard from "../components/PostCard";
 import CreatePost from "../components/CreatePost";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useAuth from "../hooks/useAuth";
-
+import { io } from "socket.io-client";
+import useConv from "../hooks/useConv";
 export default function Home() {
+  const {onlineFriends, setOnlineFriends } = useConv();
+
   const axiosPrivate = useAxiosPrivate();
   const {
     auth: { userData },
   } = useAuth();
   const [alldevPosts, setAllDevPosts] = useState(null);
   const [currentPost, setCurrentPost] = useState(null);
+  const socket = useRef();
+  console.log('homepage online users',onlineFriends);
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
@@ -33,6 +38,13 @@ export default function Home() {
       controller.abort();
     };
   }, []);
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.emit("addUser", userData._id);
+    socket.current.on("getUsers", (users) => {
+      setOnlineFriends(users.map((user) => user.userId))
+    });
+  }, [userData]);
   return (
     <div className="w-full ">
       <div className="px-8">

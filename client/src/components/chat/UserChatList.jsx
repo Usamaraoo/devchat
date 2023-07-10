@@ -33,7 +33,6 @@ export default function UserChatList() {
       controller.abort();
     };
   }, []);
-  console.log('online friends',onlineFriends)
   return (
     <div>
       <h2 className="text-2xl mb-2">Chat</h2>
