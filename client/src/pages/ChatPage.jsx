@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 import useAuth from "../hooks/useAuth";
 
 export default function ChatPage() {
-  const { currentConv, setCurrentConv, setOnlineFriends } = useConv();
+  const { currentConv, setCurrentConv, setOnlineFriends, socket } = useConv();
   const { username } = useParams();
   const {
     auth: { userData },
@@ -18,7 +18,7 @@ export default function ChatPage() {
   const axiosPrivate = useAxiosPrivate();
   const [messages, setMessages] = useState(null);
   const [arrivalMsg, setArrivalMsg] = useState(null);
-  const socket = useRef();
+
   const updateMessageList = (msgContent) => {
     setMessages([...messages, msgContent]);
   };
@@ -75,7 +75,6 @@ export default function ChatPage() {
 
   // establish connection
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
     // get new message
     socket.current?.on("getMessage", (data) => {
       setArrivalMsg({
@@ -90,13 +89,7 @@ export default function ChatPage() {
       currentConv.members[0]._id === arrivalMsg.sender &&
       setMessages((prev) => [...prev, arrivalMsg]);
   }, [arrivalMsg]);
-  // online user
-  useEffect(() => {
-    socket.current.emit("addUser", userData._id);
-    socket.current.on("getUsers", (users) => {
-      setOnlineFriends(users.map((user)=> user.userId))
-    });
-  }, [userData, currentConv]);
+
 
   return (
     <div className=" w-full">
