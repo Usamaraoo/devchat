@@ -104,7 +104,7 @@ export default function SideBar() {
                     <span className="flex-1 ml-3 whitespace-nowrap">
                       Notifications
                     </span>
-                    <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium  rounded-full dark:bg-blue-900 dark:text-orange-400">
+                    <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium  rounded-full bg-blue-900 text-orange-400">
                       3
                     </span>
                   </Link>

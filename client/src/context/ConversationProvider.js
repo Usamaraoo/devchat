@@ -6,8 +6,10 @@ export const ConversationProiver = ({ children }) => {
   const [convListState, setConvListState] = useState([]);
   const [currentConv, setCurrentConv] = useState(null);
   const [onlineFriends, setOnlineFriends] = useState(null);
+  const [arrivalMsg, setArrivalMsg] = useState(null);
   const socket = useRef();
   // establish connection
+
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
   }, []);
@@ -23,7 +25,19 @@ export const ConversationProiver = ({ children }) => {
   //   console.log('convo list',conv);
   // };
   return (
-    <ConversationContext.Provider value={{ convListState, setConvListState, currentConv, setCurrentConv, onlineFriends, setOnlineFriends ,socket}}>
+    <ConversationContext.Provider
+      value={{
+        convListState,
+        setConvListState,
+        currentConv,
+        setCurrentConv,
+        onlineFriends,
+        setOnlineFriends,
+        arrivalMsg,
+        setArrivalMsg,
+        socket,
+      }}
+    >
       {children}
     </ConversationContext.Provider>
   );

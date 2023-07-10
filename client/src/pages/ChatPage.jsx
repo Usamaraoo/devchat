@@ -10,14 +10,13 @@ import { io } from "socket.io-client";
 import useAuth from "../hooks/useAuth";
 
 export default function ChatPage() {
-  const { currentConv, setCurrentConv, setOnlineFriends, socket } = useConv();
+  const { currentConv, setCurrentConv, arrivalMsg, setArrivalMsg, socket } = useConv();
   const { username } = useParams();
   const {
     auth: { userData },
   } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const [messages, setMessages] = useState(null);
-  const [arrivalMsg, setArrivalMsg] = useState(null);
 
   const updateMessageList = (msgContent) => {
     setMessages([...messages, msgContent]);
@@ -87,7 +86,7 @@ export default function ChatPage() {
   useEffect(() => {
     arrivalMsg &&
       currentConv.members[0]._id === arrivalMsg.sender &&
-      setMessages((prev) => [...prev, arrivalMsg]);
+      setMessages((prev) => [...prev, arrivalMsg])
   }, [arrivalMsg]);
 
 
