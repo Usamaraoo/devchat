@@ -1,5 +1,6 @@
 const ConversationModel = require("../models/Conversation");
 const UserModel = require("../models/User");
+const MessageModel = require("../models/Message");
 
 // new conversation
 const createConversation = async (req, res) => {
@@ -61,7 +62,33 @@ const getConversation = async (req, res) => {
   }
 };
 
+
+// get conversation of a current user
+const deleteConv = async (req, res) => {
+  try {
+    console.log('api working');
+    const { conversationId } = req.params;
+    const conversation = await ConversationModel.deleteOne({_id:conversationId});
+    const convMessages = await MessageModel.deleteMany({conversationId})
+    // convMessages.remove()
+    // conversation.remove()
+    console.log(conversation)
+    // here we are filtering only the other user in conversation not the current user
+    // const filteredConv = conversations.map((conv) => {
+    //   const mem = conv.members.filter(
+    //     (member) => member.name !== req.user.name
+    //   );
+    //   conv.members = mem;
+    //   return conv;
+    // });
+    res.json('deleted');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createConversation,
+  deleteConv,
   getConversation,
 };
