@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import PostCard from "../components/PostCard";
 import { defaultDevImg } from "../data/defaultData";
+import AddBio from "../components/AddBio";
 export default function Profile() {
   const {
     auth: { userData },
@@ -29,6 +30,7 @@ export default function Profile() {
         console.log(error);
       }
     };
+    
     getUserPosts();
     return () => {
       isMounted = false;
@@ -38,23 +40,23 @@ export default function Profile() {
   return (
     <div className="w-full">
       {/* cover */}
-      <div className="h-100 py-4  bg-slate-800 px-8 flex gap-5 cover-bg">
-        <div>
+      <div className="h-100 py-4 content-baseline items-start  bg-slate-800 px-8 flex gap-5 cover-bg">
+        <div className="w-40">
           <img
             src={userData.avatarUrl ? userData.avatarUrl : defaultDevImg}
             alt="user"
-            className="w-64 rounded-full"
+            className="w-40  rounded-full"
           />
         </div>
-        <div className="mt-6">
-          <p className="text-xl font-medium tracking-widest">
+        <div className="mt-6 ">
+          <p className=" text-xl font-medium tracking-widest">
             {userData?.name}
           </p>
-          <p className="text-sm text-gray-50 tracking-widest">
-            MERN Stack Developer | React, Node.js, MongoDB, and Express |
-            Building robust and scalable web applications to solve complex
-            problems
-          </p>
+          {userData.bio? <p className="text-sm text-gray-50 tracking-widest">
+            {userData.bio}
+          </p>:
+          <AddBio/>}
+          
         </div>
       </div>
       {/* dev posts wall */}
@@ -74,6 +76,7 @@ export default function Profile() {
             );
           })}
       </div>
+      
     </div>
   );
 }

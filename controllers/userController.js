@@ -125,6 +125,27 @@ const setUserAvatar = async (req, res) => {
     res.json(error);
   }
 };
+const addBio = async (req, res) => {
+  try {
+    const { bio } = req.body;
+    const { _id } = req.user;
+    if (_id) {
+      const dev = await UserModel.findById(_id);
+      if (dev) {
+        dev.bio = bio;
+        dev.save();
+        res.json({ bio: dev.bioD });
+      } else {
+        res.status(204).json({ error: "User not found" });
+      }
+    } else {
+      res.status(204).json({ error: "avatar is not empty" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+};
 
 const getFriendDevs = async (req, res) => {
   try {
@@ -149,4 +170,5 @@ module.exports = {
   logoutUser,
   setUserAvatar,
   getFriendDevs,
+  addBio,
 };
