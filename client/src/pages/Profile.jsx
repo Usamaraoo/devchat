@@ -18,7 +18,7 @@ export default function Profile() {
     const controller = new AbortController();
     const getUserPosts = async () => {
       try {
-        const res = await axiosPrivate.get("/api/dev-posts", {
+        const res = await axiosPrivate.get("/api/dev-posts/current-user", {
           signal: controller.signal,
         });
         if (res.status === 200) {
