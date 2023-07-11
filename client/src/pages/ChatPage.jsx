@@ -16,7 +16,7 @@ export default function ChatPage() {
     auth: { userData },
   } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const updateMessageList = (msgContent) => {
     setMessages([...messages, msgContent]);

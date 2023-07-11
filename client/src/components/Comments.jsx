@@ -5,7 +5,7 @@ import { defaultDevImg } from "../data/defaultData";
 export default function Comments(props) {
   const { comment, userName, userImg, time } = props;
   return (
-    <div className={` h-fit bg${graylight}  px-4 py-5 my-5 rounded-sm  `}>
+    <div className={` h-fit bg${graylight}  px-4 py-5 my-5 rounded-lg  `}>
       <div className="flex gap-2 mb-2 items-start">
         <img
           className="rounded-full w-8 "

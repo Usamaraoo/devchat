@@ -26,14 +26,14 @@ export default function WriteComment({ postId,setCurrentComment }) {
     }
   };
   return (
-    <div className="w-full relative ">
+    <div className="w-full relative border-lg ">
       <form onSubmit={addComment}>
         <textarea
           rows={2}
           type="text"
           onChange={(e) => setComment(e.target.value)}
           value={comment}
-          className={`w-full  p-2 bg-gray-800 py-2 pr-20`}
+          className={`w-full  py-2 px-4 bg-gray-900 py-2 pr-20`}
           placeholder="Write a comment"
         />
         <button

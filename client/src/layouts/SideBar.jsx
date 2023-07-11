@@ -4,8 +4,11 @@ import useLogout from "../hooks/useLogout";
 import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import { routesNotForSideBar } from "../data/defaultData";
 import useAuth from "../hooks/useAuth";
-
+import useConv from "../hooks/useConv";
+import {FaMasksTheater} from 'react-icons/fa'
 export default function SideBar() {
+  const {  arrivalMsg } = useConv();
+
   const { auth } = useAuth();
   const location = useLocation();
   const logout = useLogout();
@@ -83,7 +86,7 @@ export default function SideBar() {
                 </li>
                 <li>
                   <Link
-                    to="/avatar"
+                    // to=""
                     className={`flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
                   >
                     <svg
@@ -128,6 +131,9 @@ export default function SideBar() {
                       />
                     </svg>
                     <span className="flex-1 ml-3 whitespace-nowrap">Chat</span>
+                    {arrivalMsg && <span style={{fontSize:"10px"}} className="inline-flex items-center justify-center px-4 ml-3 text-sm font-medium  rounded-full bg-blue-900 text-orange-400">
+                      new
+                    </span>}
                   </div>
                 </Link>
                 <Link to="/dashboard">
@@ -149,6 +155,28 @@ export default function SideBar() {
                     </svg>
                     <span className="flex-1 ml-3 whitespace-nowrap">
                       Developers
+                    </span>
+                  </div>
+                </Link>
+                <Link to="/avatar">
+                  <div
+                    className={`flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="flex-shrink-0 w-6 h-6 text-white transition duration-75 dark:text-gray-400 group-hover: dark:group-hover:text-white"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                    <span className="flex-1 ml-3 whitespace-nowrap">
+                      Avatars
                     </span>
                   </div>
                 </Link>
