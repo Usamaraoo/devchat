@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 import useConv from "../hooks/useConv";
 export default function Home() {
   const axiosPrivate = useAxiosPrivate();
-  const { convListState, setConvListState } = useConv();
+  const { setConvListState } = useConv();
   const {
     auth: { userData },
   } = useAuth();
@@ -83,6 +83,7 @@ export default function Home() {
               _id,
               body,
               createdAt,
+              likeUsers,
               devId: { avatarUrl, name },
             } = post;
             return (
@@ -93,6 +94,7 @@ export default function Home() {
                   body={body}
                   userImg={avatarUrl}
                   time={createdAt}
+                  likeUsers={likeUsers}
                 />
               </div>
             );

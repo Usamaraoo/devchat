@@ -4,8 +4,12 @@ import { defaultDevImg } from "../data/defaultData";
 import { useNavigate } from "react-router-dom";
 import getTimeAgoString from "../utls/calculateTIme";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAuth from "../hooks/useAuth";
 
-export default function PostCard({ userName, userImg, body, time, postId }) {
+export default function PostCard({ userName, userImg, body, time, postId ,likeUsers}) {
+  const {
+    auth: { userData },
+  } = useAuth();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const likePost = async () => {
@@ -53,7 +57,7 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className={`w-5 h-5 cursor-pointer  ${hoverTextOrange} `}
+              className={`w-5 h-5 cursor-pointer  ${hoverTextOrange} ${likeUsers.includes(userData._id) && 'text-orange-400'} `}
             >
               <path
                 strokeLinecap="round"
