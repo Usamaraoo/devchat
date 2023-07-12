@@ -17,6 +17,7 @@ export default function SideBar() {
     await logout();
     navigate("/login");
   };
+console.log(location.pathname === '/');
   return (
     <div className='fixed bottom-0 top-0 '>
       {!routesNotForSideBar.includes(location.pathname) && auth.user && (
@@ -64,7 +65,7 @@ export default function SideBar() {
                 <li>
                   <Link
                     to="/"
-                    className={`flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 text-white  ${hoverTextOrange}`}
+                    className={`flex items-center p-2  rounded-lg  hover:bg-gray-100 dark:hover:bg-gray-700   ${hoverTextOrange} ${location.pathname === '/' ? 'bg-gray-700 text-orange-400':'text-white'}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +115,7 @@ export default function SideBar() {
                 </li>
                 <Link to={`/chat/${convListState[0]?.members[0]?.name}`}>
                   <div
-                    className={`flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
+                    className={`flex items-center p-2  rounded-lg  hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange} ${location.pathname.split('/').includes('chat')  ? 'bg-gray-700 text-orange-400':'text-white'}`}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
