@@ -3,8 +3,10 @@ import CreatePost from "../components/CreatePost";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useState, useEffect, useRef } from "react";
 import useAuth from "../hooks/useAuth";
+import useConv from "../hooks/useConv";
 export default function Home() {
   const axiosPrivate = useAxiosPrivate();
+  const { convListState, setConvListState } = useConv();
   const {
     auth: { userData },
   } = useAuth();
@@ -27,6 +29,30 @@ export default function Home() {
       }
     };
     getUserPosts();
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
+  // get user chat list
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    // here we are only getting the user data which user have conservation
+    const getConversationsList = async () => {
+      try {
+        const res = await axiosPrivate.get("/api/conversation", {
+          signal: controller.signal,
+        });
+        if (res.status === 200) {
+          const conv = await res.data;
+          isMounted && setConvListState(conv);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getConversationsList();
     return () => {
       isMounted = false;
       controller.abort();

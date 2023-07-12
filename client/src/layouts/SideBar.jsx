@@ -7,7 +7,7 @@ import useAuth from "../hooks/useAuth";
 import useConv from "../hooks/useConv";
 import {FaMasksTheater} from 'react-icons/fa'
 export default function SideBar() {
-  const {  arrivalMsg } = useConv();
+  const { convListState, arrivalMsg } = useConv();
 
   const { auth } = useAuth();
   const location = useLocation();
@@ -112,7 +112,7 @@ export default function SideBar() {
                     </span>
                   </Link>
                 </li>
-                <Link to='/chat'>
+                <Link to={`/chat/${convListState[0]?.members[0]?.name}`}>
                   <div
                     className={`flex items-center p-2  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700  ${hoverTextOrange}`}
                   >

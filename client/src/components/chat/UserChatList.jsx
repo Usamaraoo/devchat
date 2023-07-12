@@ -1,39 +1,12 @@
-import React from "react";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useEffect, useState } from "react";
 import useConv from "../../hooks/useConv";
 import { Link } from "react-router-dom";
 import { orange, gray400 } from "../../data/StyleGuide";
 
 export default function UserChatList() {
-  const { convListState, setConvListState, currentConv,setCurrentConv, onlineFriends,arrivalMsg } =
+  const { convListState, setCurrentConv, onlineFriends,arrivalMsg } =
     useConv();
-  const axiosPrivate = useAxiosPrivate();
   let currentUser = window.location.pathname.split("/").slice(-1)[0];
 
-  useEffect(() => {
-    let isMounted = true;
-    const controller = new AbortController();
-    // here we are only getting the user data which user have conservation
-    const getConversationsList = async () => {
-      try {
-        const res = await axiosPrivate.get("/api/conversation", {
-          signal: controller.signal,
-        });
-        if (res.status === 200) {
-          const conv = await res.data;
-          isMounted && setConvListState(conv);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getConversationsList();
-    return () => {
-      isMounted = false;
-      controller.abort();
-    };
-  }, []);
   return (
     <div>
       <h2 className="text-2xl mb-2">Chat</h2>
