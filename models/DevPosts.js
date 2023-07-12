@@ -12,6 +12,9 @@ const devPostSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    likeUsers: {
+      type: Array,
+    },
   },
   {
     timestamps: true,

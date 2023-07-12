@@ -3,9 +3,21 @@ import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import { defaultDevImg } from "../data/defaultData";
 import { useNavigate } from "react-router-dom";
 import getTimeAgoString from "../utls/calculateTIme";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export default function PostCard({ userName, userImg, body, time, postId }) {
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const likePost = async () => {
+    try {
+      console.log('like post')
+      const res = await axiosPrivate.post(`/api/dev-posts/like/${postId}`);
+      if (res.status === 200) {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className={` post-card   bg${graylight}  mx-12 px-4 py-2 rounded-sm  `}
@@ -25,7 +37,7 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
         <div
           className="cursor-pointer"
           onClick={() => {
-            navigate(`/post/${postId}`, { state: {userName,userImg, body, postId,time:getTimeAgoString(new Date(time)) } });
+            navigate(`/post/${postId}`, { state: { userName, userImg, body, postId, time: getTimeAgoString(new Date(time)) } });
           }}
         >
           {body && body}
@@ -35,6 +47,7 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
         <div className="flex gap-4">
           <div className="flex">
             <svg
+               onClick={likePost}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -73,6 +86,7 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
           </div>
           <div className="flex">
             <svg
+         
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
