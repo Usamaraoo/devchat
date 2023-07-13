@@ -5,18 +5,22 @@ import { useNavigate } from "react-router-dom";
 import getTimeAgoString from "../utls/calculateTIme";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
+import { useState } from 'react'
 
-export default function PostCard({ userName, userImg, body, time, postId ,likeUsers}) {
+export default function PostCard({ userName, userImg, body, time, postId, likeUsers }) {
   const {
     auth: { userData },
   } = useAuth();
   const navigate = useNavigate();
+  const [likedState, setLikeState] = useState(false)
   const axiosPrivate = useAxiosPrivate();
-  const likePost = async () => {
+  const likePost = async (alreadyliked) => {
     try {
-      console.log('like post')
+      console.log('alreadyliked',alreadyliked)
       const res = await axiosPrivate.post(`/api/dev-posts/like/${postId}`);
       if (res.status === 200) {
+        // if liked already unlike the state
+          setLikeState(!likedState)
       }
     } catch (error) {
       console.log(error);
@@ -51,13 +55,16 @@ export default function PostCard({ userName, userImg, body, time, postId ,likeUs
         <div className="flex gap-4">
           <div className="flex">
             <svg
-               onClick={likePost}
+              onClick={()=> likePost(likeUsers.includes(userData._id))}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className={`w-5 h-5 cursor-pointer  ${hoverTextOrange} ${likeUsers.includes(userData._id) && 'text-orange-400'} `}
+              className={`w-5 h-5 cursor-pointer  ${hoverTextOrange} ${likeUsers.includes(userData._id) && 'text-orange-400'} 
+              ${likedState && likeUsers.includes(userData._id) && 'text-white'}
+              ${likedState && !likeUsers.includes(userData._id) && 'text-orange-400'}
+              `}
             >
               <path
                 strokeLinecap="round"
@@ -90,7 +97,7 @@ export default function PostCard({ userName, userImg, body, time, postId ,likeUs
           </div>
           <div className="flex">
             <svg
-         
+
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
