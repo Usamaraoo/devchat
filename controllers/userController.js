@@ -17,7 +17,7 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     newUser.password = await bcrypt.hash(password, salt);
     newUser.save();
-    res.json('created');
+    res.json("created");
   } catch (error) {
     res.status(500).json({ err: "something went wrong" });
   }
@@ -125,10 +125,50 @@ const setUserAvatar = async (req, res) => {
     res.json(error);
   }
 };
+const addBio = async (req, res) => {
+  try {
+    const { bio } = req.body;
+    const { _id } = req.user;
+    if (_id) {
+      const dev = await UserModel.findById(_id);
+      if (dev) {
+        dev.bio = bio;
+        dev.save();
+        res.json({ bio: dev.bioD });
+      } else {
+        res.status(204).json({ error: "User not found" });
+      }
+    } else {
+      res.status(204).json({ error: "avatar is not empty" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+};
+
+const getFriendDevs = async (req, res) => {
+  try {
+    // const { avatar, avatarUrl } = req.body;
+    // const { _id } = req.user;
+    const devs = await UserModel.find().select(" name , avatarUrl");
+    if (devs) {
+      res.json(devs);
+    } else {
+      res.status(204).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+};
+
 module.exports = {
   registerUser,
   loginUser,
   userInfo,
   logoutUser,
   setUserAvatar,
+  getFriendDevs,
+  addBio,
 };

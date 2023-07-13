@@ -1,11 +1,12 @@
 import PostCard from "../components/PostCard";
 import CreatePost from "../components/CreatePost";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useAuth from "../hooks/useAuth";
-import { defaultDevImg } from "../data/defaultData";
+import useConv from "../hooks/useConv";
 export default function Home() {
   const axiosPrivate = useAxiosPrivate();
+  const { setConvListState } = useConv();
   const {
     auth: { userData },
   } = useAuth();
@@ -33,6 +34,31 @@ export default function Home() {
       controller.abort();
     };
   }, []);
+  // get user chat list
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    // here we are only getting the user data which user have conservation
+    const getConversationsList = async () => {
+      try {
+        const res = await axiosPrivate.get("/api/conversation", {
+          signal: controller.signal,
+        });
+        if (res.status === 200) {
+          const conv = await res.data;
+          isMounted && setConvListState(conv);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getConversationsList();
+    return () => {
+      isMounted = false;
+      controller.abort();
+    };
+  }, []);
+
   return (
     <div className="w-full ">
       <div className="px-8">
@@ -57,6 +83,7 @@ export default function Home() {
               _id,
               body,
               createdAt,
+              likeUsers,
               devId: { avatarUrl, name },
             } = post;
             return (
@@ -67,6 +94,7 @@ export default function Home() {
                   body={body}
                   userImg={avatarUrl}
                   time={createdAt}
+                  likeUsers={likeUsers}
                 />
               </div>
             );

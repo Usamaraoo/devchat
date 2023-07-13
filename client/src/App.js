@@ -14,9 +14,27 @@ import SideBar from "./layouts/SideBar";
 import RightBar from "./layouts/RightBar";
 import Profile from "./pages/Profile";
 import PostDetail from "./pages/PostDetail";
-
+import ChatPage from "./pages/ChatPage";
+import { useEffect } from 'react'
+import useConv from "./hooks/useConv";
+import useAuth from "./hooks/useAuth";
 function App() {
-  
+  const { setOnlineFriends, socket } = useConv();
+  const {
+    auth: { userData },
+  } = useAuth();
+
+  // on login adding user to online friend list
+  useEffect(() => {
+    if (userData) {
+      socket?.current.emit("addUser", userData._id);
+      socket?.current.on("getUsers", (users) => {
+        console.log('online users',users);
+        setOnlineFriends(users.map((user) => user.userId))
+      });
+    }
+  }, [userData]);
+
   return (
     <div className="text-white   ">
       <Router>
@@ -44,6 +62,7 @@ function App() {
                   <Route path="/avatar" element={<Avatar />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/post/:slug" element={<PostDetail />} />
+                  <Route path="/chat/:username" element={<ChatPage />} />
                 </Route>
               </Route>
             </Routes>

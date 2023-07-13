@@ -37,7 +37,7 @@ export default function PostDetail() {
   }, []);
   return (
     <div className="w-full mx-8">
-      <div className={` h-fit bg${graylight}  px-4 py-5 my-5 rounded-sm  `}>
+      <div className={` h-fit bg${graylight}  px-4 py-5 my-5 rounded-lg  `}>
         <Link to={"/profile"} className="flex gap-2 mb-2">
           <img
             className="rounded-full w-14 "

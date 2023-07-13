@@ -3,9 +3,29 @@ import { graylight, hoverTextOrange } from "../data/StyleGuide";
 import { defaultDevImg } from "../data/defaultData";
 import { useNavigate } from "react-router-dom";
 import getTimeAgoString from "../utls/calculateTIme";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAuth from "../hooks/useAuth";
+import { useState } from 'react'
 
-export default function PostCard({ userName, userImg, body, time, postId }) {
+export default function PostCard({ userName, userImg, body, time, postId, likeUsers }) {
+  const {
+    auth: { userData },
+  } = useAuth();
   const navigate = useNavigate();
+  const [likedState, setLikeState] = useState(false)
+  const axiosPrivate = useAxiosPrivate();
+  const likePost = async (alreadyliked) => {
+    try {
+      console.log('alreadyliked',alreadyliked)
+      const res = await axiosPrivate.post(`/api/dev-posts/like/${postId}`);
+      if (res.status === 200) {
+        // if liked already unlike the state
+          setLikeState(!likedState)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className={` post-card   bg${graylight}  mx-12 px-4 py-2 rounded-sm  `}
@@ -25,7 +45,7 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
         <div
           className="cursor-pointer"
           onClick={() => {
-            navigate(`/post/${postId}`, { state: {userName,userImg, body, postId,time:getTimeAgoString(new Date(time)) } });
+            navigate(`/post/${postId}`, { state: { userName, userImg, body, postId, time: getTimeAgoString(new Date(time)) } });
           }}
         >
           {body && body}
@@ -35,12 +55,16 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
         <div className="flex gap-4">
           <div className="flex">
             <svg
+              onClick={()=> likePost(likeUsers.includes(userData._id))}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className={`w-5 h-5 cursor-pointer  ${hoverTextOrange} `}
+              className={`w-5 h-5 cursor-pointer  ${hoverTextOrange} ${likeUsers.includes(userData._id) && 'text-orange-400'} 
+              ${likedState && likeUsers.includes(userData._id) && 'text-white'}
+              ${likedState && !likeUsers.includes(userData._id) && 'text-orange-400'}
+              `}
             >
               <path
                 strokeLinecap="round"
@@ -73,6 +97,7 @@ export default function PostCard({ userName, userImg, body, time, postId }) {
           </div>
           <div className="flex">
             <svg
+
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
